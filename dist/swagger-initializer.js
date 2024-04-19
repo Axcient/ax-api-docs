@@ -3,7 +3,10 @@ window.onload = function() {
 
   // the following lines will be replaced by docker/configurator, when it runs in a docker-container
   window.ui = SwaggerUIBundle({
-    url: "x360Recover.yaml",
+    urls: [
+      {url: "x360Recover.yaml", name: "x360Recover"},
+      {url: "Distributor.yaml", name: "Distributor"},
+      ],
     dom_id: '#swagger-ui',
     deepLinking: true,
     presets: [
