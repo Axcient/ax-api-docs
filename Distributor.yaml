@@ -1,0 +1,2471 @@
+info:
+  title: Axcient API
+  version: 1.26.2
+  description: ''
+paths:
+  /company/{company_id}:
+    get:
+      summary: Get company details
+      responses:
+        '200':
+          description: Success (returns company data)
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+                example: 0014V000033lF7RQAU
+              name:
+                type: string
+                example: MyCompany
+              address:
+                type: string
+                example: 123 Fake Street
+              state:
+                type: string
+                example: CO
+              postalCode:
+                type: string
+                example: '123456'
+              city:
+                type: string
+                example: Springfield
+              country:
+                type: string
+                example: United States
+              phone:
+                type: string
+                example: +1(234)567-8901
+              website:
+                type: string
+                example: https://axcient.com/
+              products:
+                type: object
+                properties:
+                  x360Cloud:
+                    type: object
+                    properties:
+                      enabled:
+                        type: boolean
+                        example: true
+                      datacenter:
+                        type: string
+                        enum:
+                          - US
+                          - AMS
+                          - CA
+                        example: US
+                      status:
+                        type: string
+                        enum:
+                          - active
+                          - trial
+                          - expired
+                          - inactive
+                        example: active
+                      trialExpiration:
+                        type: string
+                        example: '2022-04-30'
+                  x360Recover:
+                    type: object
+                    properties:
+                      enabled:
+                        type: boolean
+                        example: true
+                      datacenter:
+                        type: string
+                        enum:
+                          - US
+                          - AMS
+                          - CA
+                        example: US
+                      status:
+                        type: string
+                        enum:
+                          - active
+                          - trial
+                          - expired
+                          - inactive
+                        example: active
+                      trialExpiration:
+                        type: string
+                        example: '2022-04-30'
+                  x360Sync:
+                    type: object
+                    properties:
+                      enabled:
+                        type: boolean
+                        example: true
+                      datacenter:
+                        type: string
+                        enum:
+                          - US
+                          - AMS
+                          - CA
+                        example: US
+                      status:
+                        type: string
+                        enum:
+                          - active
+                          - trial
+                          - expired
+                          - inactive
+                        example: active
+                      trialExpiration:
+                        type: string
+                        example: '2022-04-30'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      parameters:
+        - in: path
+          name: company_id
+          description: Company Salesforce Id
+          required: true
+          schema:
+            type: string
+            example: 0014V000033lF7RQAU
+      tags:
+        - company
+      security:
+        - ApiKeyAuth: []
+  /company/{company_id}/usage:
+    get:
+      summary: Get a report of actual usage for a company
+      responses:
+        '200':
+          description: Success (returns usage results)
+          schema:
+            type: object
+            properties:
+              start_date:
+                type: string
+                example: '2022-04-01'
+              end_date:
+                type: string
+                example: '2022-04-30'
+              children:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: '232623'
+                    name:
+                      type: string
+                      example: Example, Inc.
+                    product:
+                      type: string
+                      example: x360Recover
+                    usage:
+                      type: object
+                      properties:
+                        applianceServer:
+                          type: number
+                          example: 1
+                        applianceServerLinux:
+                          type: number
+                          example: 1.5
+                        applianceWorkstation:
+                          type: number
+                          example: 3
+                        cloudServer:
+                          type: number
+                          example: 0
+                        cloudServerLinux:
+                          type: number
+                          example: 2
+                        cloudStorage:
+                          type: number
+                          example: 6
+                        cloudWorkstation:
+                          type: number
+                          example: 4.2
+                        d2cPrivateServer:
+                          type: number
+                          example: 1.3
+                        d2cPrivateServerLinux:
+                          type: number
+                          example: 0.6
+                        d2cPrivateWorkstation:
+                          type: number
+                          example: 0.8
+                        d2cServer:
+                          type: number
+                          example: 1
+                        d2cServerLinux:
+                          type: number
+                          example: 10
+                        d2cWorkstation:
+                          type: number
+                          example: 9
+                        privateServer:
+                          type: number
+                          example: 1.3
+                        privateServerLinux:
+                          type: number
+                          example: 1.8
+                        privateWorkstation:
+                          type: number
+                          example: 1.6
+                        storage01TB03Yr:
+                          type: number
+                          example: 2
+                        storage01TB10Yr:
+                          type: number
+                          example: 2.4
+                        storage02TB03Yr:
+                          type: number
+                          example: 2.2
+                        storage02TB10Yr:
+                          type: number
+                          example: 3
+                        storage03TB03Yr:
+                          type: number
+                          example: 4.6
+                        storage03TB10Yr:
+                          type: number
+                          example: 5.7
+                        storage04TB03Yr:
+                          type: number
+                          example: 1
+                        storage04TB10Yr:
+                          type: number
+                          example: 2
+                        storage06TB03Yr:
+                          type: number
+                          example: 0
+                        storage06TB10Yr:
+                          type: number
+                          example: 0.1
+                        storage09TB03Yr:
+                          type: number
+                          example: 0.3
+                        storage09TB10Yr:
+                          type: number
+                          example: 0.9
+                        storage12TB03Yr:
+                          type: number
+                          example: 1.5
+                        storage12TB10Yr:
+                          type: number
+                          example: 1.4
+                        storage15TB03Yr:
+                          type: number
+                          example: 10.1
+                        storage15TB10Yr:
+                          type: number
+                          example: 99.9
+                        storage18TB03Yr:
+                          type: number
+                          example: 3
+                        storage18TB10Yr:
+                          type: number
+                          example: 1.8
+                        storage24TB03Yr:
+                          type: number
+                          example: 2.4
+                        storage24TB10Yr:
+                          type: number
+                          example: 2.5
+                        storage30TB03Yr:
+                          type: number
+                          example: 3
+                        storage30TB10Yr:
+                          type: number
+                          example: 3.1
+                        storage36TB03Yr:
+                          type: number
+                          example: 3.6
+                        storage36TB10Yr:
+                          type: number
+                          example: 3.7
+                        storage500GB03Yr:
+                          type: number
+                          example: 0.5
+                        storage500GB10Yr:
+                          type: number
+                          example: 0.7
+                        virtualOffice:
+                          type: number
+                          example: 0.6
+              usage:
+                type: object
+                properties:
+                  x360Cloud:
+                    type: object
+                    properties:
+                      seats:
+                        type: number
+                        example: 0
+                      storage:
+                        type: number
+                        example: 0
+                  x360Sync:
+                    type: object
+                    properties:
+                      seats:
+                        type: number
+                        example: 0
+                      storage:
+                        type: number
+                        example: 0
+                  x360Recover:
+                    type: object
+                    properties:
+                      applianceServer:
+                        type: number
+                        example: 1
+                      applianceServerLinux:
+                        type: number
+                        example: 1.5
+                      applianceWorkstation:
+                        type: number
+                        example: 3
+                      cloudServer:
+                        type: number
+                        example: 0
+                      cloudServerLinux:
+                        type: number
+                        example: 2
+                      cloudStorage:
+                        type: number
+                        example: 6
+                      cloudWorkstation:
+                        type: number
+                        example: 4.2
+                      d2cPrivateServer:
+                        type: number
+                        example: 1.3
+                      d2cPrivateServerLinux:
+                        type: number
+                        example: 0.6
+                      d2cPrivateWorkstation:
+                        type: number
+                        example: 0.8
+                      d2cServer:
+                        type: number
+                        example: 1
+                      d2cServerLinux:
+                        type: number
+                        example: 10
+                      d2cWorkstation:
+                        type: number
+                        example: 9
+                      privateServer:
+                        type: number
+                        example: 1.3
+                      privateServerLinux:
+                        type: number
+                        example: 1.8
+                      privateWorkstation:
+                        type: number
+                        example: 1.6
+                      storage01TB03Yr:
+                        type: number
+                        example: 2
+                      storage01TB10Yr:
+                        type: number
+                        example: 2.4
+                      storage02TB03Yr:
+                        type: number
+                        example: 2.2
+                      storage02TB10Yr:
+                        type: number
+                        example: 3
+                      storage03TB03Yr:
+                        type: number
+                        example: 4.6
+                      storage03TB10Yr:
+                        type: number
+                        example: 5.7
+                      storage04TB03Yr:
+                        type: number
+                        example: 1
+                      storage04TB10Yr:
+                        type: number
+                        example: 2
+                      storage06TB03Yr:
+                        type: number
+                        example: 0
+                      storage06TB10Yr:
+                        type: number
+                        example: 0.1
+                      storage09TB03Yr:
+                        type: number
+                        example: 0.3
+                      storage09TB10Yr:
+                        type: number
+                        example: 0.9
+                      storage12TB03Yr:
+                        type: number
+                        example: 1.5
+                      storage12TB10Yr:
+                        type: number
+                        example: 1.4
+                      storage15TB03Yr:
+                        type: number
+                        example: 10.1
+                      storage15TB10Yr:
+                        type: number
+                        example: 99.9
+                      storage18TB03Yr:
+                        type: number
+                        example: 3
+                      storage18TB10Yr:
+                        type: number
+                        example: 1.8
+                      storage24TB03Yr:
+                        type: number
+                        example: 2.4
+                      storage24TB10Yr:
+                        type: number
+                        example: 2.5
+                      storage30TB03Yr:
+                        type: number
+                        example: 3
+                      storage30TB10Yr:
+                        type: number
+                        example: 3.1
+                      storage36TB03Yr:
+                        type: number
+                        example: 3.6
+                      storage36TB10Yr:
+                        type: number
+                        example: 3.7
+                      storage500GB03Yr:
+                        type: number
+                        example: 0.5
+                      storage500GB10Yr:
+                        type: number
+                        example: 0.7
+                      virtualOffice:
+                        type: number
+                        example: 0.6
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      parameters:
+        - in: path
+          name: company_id
+          required: true
+          description: Company ID
+          schema:
+            type: string
+            example: 00118000011ZZay
+        - in: query
+          name: start_date
+          description: Start date
+          schema:
+            type: string
+            example: '2022-04-01'
+        - in: query
+          name: end_date
+          description: End date
+          schema:
+            type: string
+            example: '2022-04-30'
+      tags:
+        - company
+      security:
+        - ApiKeyAuth: []
+  /company/{company_id}/usage/actual:
+    get:
+      summary: Get a report of actual usage for a company
+      responses:
+        '200':
+          description: Success (returns usage results)
+          schema:
+            type: object
+            properties:
+              start_date:
+                type: string
+                example: '2022-04-01'
+              end_date:
+                type: string
+                example: '2022-04-30'
+              children:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: '232623'
+                    name:
+                      type: string
+                      example: Example, Inc.
+                    product:
+                      type: string
+                      example: x360Recover
+                    usage:
+                      type: object
+                      properties:
+                        applianceServer:
+                          type: number
+                          example: 1
+                        applianceServerLinux:
+                          type: number
+                          example: 1.5
+                        applianceWorkstation:
+                          type: number
+                          example: 3
+                        cloudServer:
+                          type: number
+                          example: 0
+                        cloudServerLinux:
+                          type: number
+                          example: 2
+                        cloudStorage:
+                          type: number
+                          example: 6
+                        cloudWorkstation:
+                          type: number
+                          example: 4.2
+                        d2cPrivateServer:
+                          type: number
+                          example: 1.3
+                        d2cPrivateServerLinux:
+                          type: number
+                          example: 0.6
+                        d2cPrivateWorkstation:
+                          type: number
+                          example: 0.8
+                        d2cServer:
+                          type: number
+                          example: 1
+                        d2cServerLinux:
+                          type: number
+                          example: 10
+                        d2cWorkstation:
+                          type: number
+                          example: 9
+                        privateServer:
+                          type: number
+                          example: 1.3
+                        privateServerLinux:
+                          type: number
+                          example: 1.8
+                        privateWorkstation:
+                          type: number
+                          example: 1.6
+                        storage01TB03Yr:
+                          type: number
+                          example: 2
+                        storage01TB10Yr:
+                          type: number
+                          example: 2.4
+                        storage02TB03Yr:
+                          type: number
+                          example: 2.2
+                        storage02TB10Yr:
+                          type: number
+                          example: 3
+                        storage03TB03Yr:
+                          type: number
+                          example: 4.6
+                        storage03TB10Yr:
+                          type: number
+                          example: 5.7
+                        storage04TB03Yr:
+                          type: number
+                          example: 1
+                        storage04TB10Yr:
+                          type: number
+                          example: 2
+                        storage06TB03Yr:
+                          type: number
+                          example: 0
+                        storage06TB10Yr:
+                          type: number
+                          example: 0.1
+                        storage09TB03Yr:
+                          type: number
+                          example: 0.3
+                        storage09TB10Yr:
+                          type: number
+                          example: 0.9
+                        storage12TB03Yr:
+                          type: number
+                          example: 1.5
+                        storage12TB10Yr:
+                          type: number
+                          example: 1.4
+                        storage15TB03Yr:
+                          type: number
+                          example: 10.1
+                        storage15TB10Yr:
+                          type: number
+                          example: 99.9
+                        storage18TB03Yr:
+                          type: number
+                          example: 3
+                        storage18TB10Yr:
+                          type: number
+                          example: 1.8
+                        storage24TB03Yr:
+                          type: number
+                          example: 2.4
+                        storage24TB10Yr:
+                          type: number
+                          example: 2.5
+                        storage30TB03Yr:
+                          type: number
+                          example: 3
+                        storage30TB10Yr:
+                          type: number
+                          example: 3.1
+                        storage36TB03Yr:
+                          type: number
+                          example: 3.6
+                        storage36TB10Yr:
+                          type: number
+                          example: 3.7
+                        storage500GB03Yr:
+                          type: number
+                          example: 0.5
+                        storage500GB10Yr:
+                          type: number
+                          example: 0.7
+                        virtualOffice:
+                          type: number
+                          example: 0.6
+              usage:
+                type: object
+                properties:
+                  x360Cloud:
+                    type: object
+                    properties:
+                      seats:
+                        type: number
+                        example: 0
+                      storage:
+                        type: number
+                        example: 0
+                  x360Sync:
+                    type: object
+                    properties:
+                      seats:
+                        type: number
+                        example: 0
+                      storage:
+                        type: number
+                        example: 0
+                  x360Recover:
+                    type: object
+                    properties:
+                      applianceServer:
+                        type: number
+                        example: 1
+                      applianceServerLinux:
+                        type: number
+                        example: 1.5
+                      applianceWorkstation:
+                        type: number
+                        example: 3
+                      cloudServer:
+                        type: number
+                        example: 0
+                      cloudServerLinux:
+                        type: number
+                        example: 2
+                      cloudStorage:
+                        type: number
+                        example: 6
+                      cloudWorkstation:
+                        type: number
+                        example: 4.2
+                      d2cPrivateServer:
+                        type: number
+                        example: 1.3
+                      d2cPrivateServerLinux:
+                        type: number
+                        example: 0.6
+                      d2cPrivateWorkstation:
+                        type: number
+                        example: 0.8
+                      d2cServer:
+                        type: number
+                        example: 1
+                      d2cServerLinux:
+                        type: number
+                        example: 10
+                      d2cWorkstation:
+                        type: number
+                        example: 9
+                      privateServer:
+                        type: number
+                        example: 1.3
+                      privateServerLinux:
+                        type: number
+                        example: 1.8
+                      privateWorkstation:
+                        type: number
+                        example: 1.6
+                      storage01TB03Yr:
+                        type: number
+                        example: 2
+                      storage01TB10Yr:
+                        type: number
+                        example: 2.4
+                      storage02TB03Yr:
+                        type: number
+                        example: 2.2
+                      storage02TB10Yr:
+                        type: number
+                        example: 3
+                      storage03TB03Yr:
+                        type: number
+                        example: 4.6
+                      storage03TB10Yr:
+                        type: number
+                        example: 5.7
+                      storage04TB03Yr:
+                        type: number
+                        example: 1
+                      storage04TB10Yr:
+                        type: number
+                        example: 2
+                      storage06TB03Yr:
+                        type: number
+                        example: 0
+                      storage06TB10Yr:
+                        type: number
+                        example: 0.1
+                      storage09TB03Yr:
+                        type: number
+                        example: 0.3
+                      storage09TB10Yr:
+                        type: number
+                        example: 0.9
+                      storage12TB03Yr:
+                        type: number
+                        example: 1.5
+                      storage12TB10Yr:
+                        type: number
+                        example: 1.4
+                      storage15TB03Yr:
+                        type: number
+                        example: 10.1
+                      storage15TB10Yr:
+                        type: number
+                        example: 99.9
+                      storage18TB03Yr:
+                        type: number
+                        example: 3
+                      storage18TB10Yr:
+                        type: number
+                        example: 1.8
+                      storage24TB03Yr:
+                        type: number
+                        example: 2.4
+                      storage24TB10Yr:
+                        type: number
+                        example: 2.5
+                      storage30TB03Yr:
+                        type: number
+                        example: 3
+                      storage30TB10Yr:
+                        type: number
+                        example: 3.1
+                      storage36TB03Yr:
+                        type: number
+                        example: 3.6
+                      storage36TB10Yr:
+                        type: number
+                        example: 3.7
+                      storage500GB03Yr:
+                        type: number
+                        example: 0.5
+                      storage500GB10Yr:
+                        type: number
+                        example: 0.7
+                      virtualOffice:
+                        type: number
+                        example: 0.6
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      parameters:
+        - in: path
+          name: company_id
+          required: true
+          description: Company ID
+          schema:
+            type: string
+            example: 00118000011ZZay
+        - in: query
+          name: start_date
+          description: Start date
+          schema:
+            type: string
+            example: '2022-04-01'
+        - in: query
+          name: end_date
+          description: End date
+          schema:
+            type: string
+            example: '2022-04-30'
+      tags:
+        - company
+      security:
+        - ApiKeyAuth: []
+  /company:
+    get:
+      summary: Get all Distributor company details
+      responses:
+        '200':
+          description: Success (returns company data)
+          schema:
+            properties:
+              page:
+                type: integer
+                example: 1
+              per_page:
+                type: integer
+                example: 20
+              total_pages:
+                type: integer
+                example: 5
+              companies:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: 0014V000033lF7RQAU
+                    name:
+                      type: string
+                      example: MyCompany
+                    address:
+                      type: string
+                      example: 123 Fake Street
+                    state:
+                      type: string
+                      example: CO
+                    postalCode:
+                      type: string
+                      example: '123456'
+                    city:
+                      type: string
+                      example: Springfield
+                    country:
+                      type: string
+                      example: United States
+                    phone:
+                      type: string
+                      example: +1(234)567-8901
+                    website:
+                      type: string
+                      example: https://axcient.com/
+                    products:
+                      type: object
+                      properties:
+                        x360Cloud:
+                          type: object
+                          properties:
+                            enabled:
+                              type: boolean
+                              example: true
+                            datacenter:
+                              type: string
+                              enum:
+                                - US
+                                - AMS
+                                - CA
+                              example: US
+                            status:
+                              type: string
+                              enum:
+                                - active
+                                - trial
+                                - expired
+                                - inactive
+                              example: active
+                            trialExpiration:
+                              type: string
+                              example: '2022-04-30'
+                        x360Recover:
+                          type: object
+                          properties:
+                            enabled:
+                              type: boolean
+                              example: true
+                            datacenter:
+                              type: string
+                              enum:
+                                - US
+                                - AMS
+                                - CA
+                              example: US
+                            status:
+                              type: string
+                              enum:
+                                - active
+                                - trial
+                                - expired
+                                - inactive
+                              example: active
+                            trialExpiration:
+                              type: string
+                              example: '2022-04-30'
+                        x360Sync:
+                          type: object
+                          properties:
+                            enabled:
+                              type: boolean
+                              example: true
+                            datacenter:
+                              type: string
+                              enum:
+                                - US
+                                - AMS
+                                - CA
+                              example: US
+                            status:
+                              type: string
+                              enum:
+                                - active
+                                - trial
+                                - expired
+                                - inactive
+                              example: active
+                            trialExpiration:
+                              type: string
+                              example: '2022-04-30'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      parameters:
+        - in: query
+          name: page
+          required: false
+          description: Query paging
+          schema:
+            type: integer
+            example: 1
+        - in: query
+          name: per_page
+          required: false
+          description: Maximum returns per request (default is 20)
+          schema:
+            type: integer
+            example: 30
+      tags:
+        - company
+      security:
+        - ApiKeyAuth: []
+  /convertId/company/{company_id}:
+    get:
+      summary: Returns associated service provider IDs
+      responses:
+        '200':
+          description: Created (returns convert ID results)
+          schema:
+            type: object
+            properties:
+              companies:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: 00118000011ZZay
+                    x360Cloud:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: true
+                        datacenter:
+                          type: string
+                          example: x360Cloud AMS
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      parameters:
+        - in: path
+          name: company_id
+          required: true
+          description: Company ID
+          schema:
+            type: string
+            example: 00118000011ZZay
+      tags:
+        - convert
+      security:
+        - ApiKeyAuth: []
+  /convertId/{product}/{product_id}:
+    get:
+      summary: Returns associated company IDs
+      responses:
+        '200':
+          description: Created (returns convert ID results)
+          schema:
+            type: object
+            properties:
+              companies:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: 00118000011ZZay
+                    x360Cloud:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: true
+                        datacenter:
+                          type: string
+                          example: x360Cloud AMS
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      parameters:
+        - in: path
+          name: product
+          required: true
+          description: Service provider name
+          schema:
+            type: string
+            example: x360Cloud
+        - in: path
+          name: product_id
+          required: true
+          description: Service provider ID
+          schema:
+            type: string
+            example: b9f371c7-5805-5df1-a991-2b1cfcfc075a
+      tags:
+        - convert
+      security:
+        - ApiKeyAuth: []
+  /provision/{id}:
+    get:
+      summary: Gets provisioning job result
+      responses:
+        '200':
+          description: Success (returns provision job results)
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+                example: b9f371c7-5805-5df1-a991-2b1cfcfc075a
+              request:
+                type: object
+                properties:
+                  body:
+                    type: object
+                    properties:
+                      company:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            example: MyCompany
+                          address:
+                            type: string
+                            example: 123 Fake Street
+                          state:
+                            type: string
+                            example: CO
+                          postalCode:
+                            type: string
+                            example: '123456'
+                          city:
+                            type: string
+                            example: Springfield
+                          country:
+                            type: string
+                            example: United States
+                          phone:
+                            type: string
+                            example: +1(234)567-8901
+                          website:
+                            type: string
+                            example: https://axcient.com/
+                      users:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            firstName:
+                              type: string
+                              example: Mike
+                            lastName:
+                              type: string
+                              example: Last
+                            username:
+                              type: string
+                              example: flast@axcient.com
+                            role:
+                              type: string
+                              enum:
+                                - Accountant
+                                - Administrator
+                                - Basic
+                              example: Administrator
+                            canAccessX360Cloud:
+                              type: boolean
+                              example: true
+                            canAccessX360Recover:
+                              type: boolean
+                              example: true
+                            canAccessX360Sync:
+                              type: boolean
+                              example: false
+                      products:
+                        type: object
+                        properties:
+                          x360Cloud:
+                            type: object
+                            properties:
+                              enabled:
+                                type: boolean
+                                example: true
+                              datacenter:
+                                type: string
+                                enum:
+                                  - US
+                                  - AMS
+                                  - CA
+                                example: US
+                          x360Recover:
+                            type: object
+                            properties:
+                              enabled:
+                                type: boolean
+                                example: true
+                              datacenter:
+                                type: string
+                                enum:
+                                  - US
+                                  - AMS
+                                  - CA
+                                example: US
+                              features:
+                                type: array
+                                items:
+                                  type: string
+                                  enum:
+                                    - Appliance
+                                    - D2C
+                                    - Private Cloud
+                          x360Sync:
+                            type: object
+                            properties:
+                              enabled:
+                                type: boolean
+                                example: true
+                              datacenter:
+                                type: string
+                                enum:
+                                  - US
+                                  - AMS
+                                  - CA
+                                example: US
+                  status:
+                    type: string
+                    enum:
+                      - failure
+                      - finished
+                      - running
+                      - success
+                    example: finished
+                  dateCreated:
+                    type: string
+                    example: '2022-04-21T18:30:17.356522'
+              response:
+                type: object
+                properties:
+                  companyId:
+                    type: string
+                    example: 00118000011ZZay
+                  x360Cloud:
+                    type: object
+                    properties:
+                      caseId:
+                        type: string
+                        example: 00118000011ZZax
+                      opportunityId:
+                        type: string
+                        example: 00118000011ZZaz
+                      success:
+                        type: boolean
+                        example: true
+                  x360Recover:
+                    type: object
+                    properties:
+                      caseId:
+                        type: string
+                        example: 00118000011ZZax
+                      success:
+                        type: boolean
+                        example: true
+                  x360Sync:
+                    type: object
+                    properties:
+                      caseId:
+                        type: string
+                        example: 00118000011ZZax
+                      success:
+                        type: boolean
+                        example: true
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Provisioning job ID
+          schema:
+            type: string
+            example: b9f371c7-5805-5df1-a991-2b1cfcfc075a
+      tags:
+        - provisioning
+      security:
+        - ApiKeyAuth: []
+  /provision:
+    post:
+      summary: Provisions account and contacts across service providers
+      responses:
+        '201':
+          description: Created (returns provisioning job ID)
+          schema:
+            type: object
+            example:
+              id: b9f371c7-5805-5df1-a991-2b1cfcfc075a
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      parameters:
+        - in: body
+          name: body
+          description: Account, contact and service provider details
+          required: false
+          schema:
+            type: object
+            properties:
+              company:
+                type: object
+                required: true
+                properties:
+                  name:
+                    type: string
+                    example: MyCompany
+                    required: true
+                  address:
+                    type: string
+                    example: 123 Fake Street
+                    required: true
+                  state:
+                    type: string
+                    example: CO
+                  postalCode:
+                    type: string
+                    example: '123456'
+                    required: true
+                  city:
+                    type: string
+                    example: Springfield
+                    required: true
+                  country:
+                    type: string
+                    example: United States
+                    required: true
+                  phone:
+                    type: string
+                    example: +1(234)567-8901
+                    required: true
+                  website:
+                    type: string
+                    example: https://axcient.com/
+              users:
+                type: array
+                required: true
+                items:
+                  type: object
+                  properties:
+                    firstName:
+                      type: string
+                      example: Mike
+                      required: true
+                    lastName:
+                      type: string
+                      example: Last
+                      required: true
+                    username:
+                      type: string
+                      example: flast@axcient.com
+                      required: true
+                    role:
+                      type: string
+                      enum:
+                        - Accountant
+                        - Administrator
+                        - Basic
+                      example: Administrator
+                      required: true
+                    canAccessX360Cloud:
+                      type: boolean
+                      example: true
+                    canAccessX360Recover:
+                      type: boolean
+                      example: true
+                    canAccessX360Sync:
+                      type: boolean
+                      example: false
+              products:
+                type: object
+                properties:
+                  x360Cloud:
+                    type: object
+                    properties:
+                      enabled:
+                        type: boolean
+                        example: true
+                      datacenter:
+                        type: string
+                        enum:
+                          - US
+                          - AMS
+                          - CA
+                        example: US
+                  x360Recover:
+                    type: object
+                    properties:
+                      enabled:
+                        type: boolean
+                        example: true
+                      datacenter:
+                        type: string
+                        enum:
+                          - US
+                          - AMS
+                          - CA
+                        example: US
+                      features:
+                        type: array
+                        items:
+                          type: string
+                          enum:
+                            - Appliance
+                            - D2C
+                            - Private Cloud
+                  x360Sync:
+                    type: object
+                    properties:
+                      enabled:
+                        type: boolean
+                        example: true
+                      datacenter:
+                        type: string
+                        enum:
+                          - US
+                          - AMS
+                          - CA
+                        example: US
+                      configuration:
+                        type: object
+                        example:
+                          ...: check all options available on https://developer.anchorworks.com/v2/#create-an-organization
+      tags:
+        - provisioning
+      security:
+        - ApiKeyAuth: []
+    get:
+      summary: Gets provisioning job results
+      responses:
+        '200':
+          description: Success (returns provision job results)
+          schema:
+            type: object
+            properties:
+              page:
+                type: integer
+                example: 1
+              per_page:
+                type: integer
+                example: 10
+              total_pages:
+                type: integer
+                example: 10
+              results:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id: null
+                    type: string
+                    example: b9f371c7-5805-5df1-a991-2b1cfcfc075a
+                    request:
+                      type: object
+                      properties:
+                        body:
+                          type: object
+                          properties:
+                            company: null
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                                example: MyCompany
+                              address:
+                                type: string
+                                example: 123 Fake Street
+                              state:
+                                type: string
+                                example: CO
+                              postalCode:
+                                type: string
+                                example: '123456'
+                              city:
+                                type: string
+                                example: Springfield
+                              country:
+                                type: string
+                                example: United States
+                              phone:
+                                type: string
+                                example: +1(234)567-8901
+                              website:
+                                type: string
+                                example: https://axcient.com/
+                            users:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  firstName:
+                                    type: string
+                                    example: Mike
+                                  lastName:
+                                    type: string
+                                    example: Last
+                                  username:
+                                    type: string
+                                    example: flast@axcient.com
+                                  role:
+                                    type: string
+                                    enum:
+                                      - Accountant
+                                      - Administrator
+                                      - Basic
+                                    example: Administrator
+                                  canAccessX360Cloud:
+                                    type: boolean
+                                    example: true
+                                  canAccessX360Recover:
+                                    type: boolean
+                                    example: true
+                                  canAccessX360Sync:
+                                    type: boolean
+                                    example: false
+                            products:
+                              type: object
+                              properties:
+                                x360Cloud:
+                                  type: object
+                                  properties:
+                                    enabled:
+                                      type: boolean
+                                      example: true
+                                    datacenter:
+                                      type: string
+                                      enum:
+                                        - US
+                                        - AMS
+                                        - CA
+                                      example: US
+                                x360Recover:
+                                  type: object
+                                  properties:
+                                    enabled:
+                                      type: boolean
+                                      example: true
+                                    datacenter:
+                                      type: string
+                                      enum:
+                                        - US
+                                        - AMS
+                                        - CA
+                                      example: US
+                                    features:
+                                      type: array
+                                      items:
+                                        type: string
+                                        enum:
+                                          - Appliance
+                                          - D2C
+                                          - Private Cloud
+                                x360Sync:
+                                  type: object
+                                  properties:
+                                    enabled:
+                                      type: boolean
+                                      example: true
+                                    datacenter:
+                                      type: string
+                                      enum:
+                                        - US
+                                        - AMS
+                                        - CA
+                                      example: US
+                        status:
+                          type: string
+                          enum:
+                            - failure
+                            - finished
+                            - running
+                            - success
+                          example: finished
+                        dateCreated:
+                          type: string
+                          example: '2022-04-21T18:30:17.356522'
+                    response:
+                      type: object
+                      properties:
+                        companyId:
+                          type: string
+                          example: 00118000011ZZay
+                        x360Cloud:
+                          type: object
+                          properties:
+                            caseId:
+                              type: string
+                              example: 00118000011ZZax
+                            opportunityId:
+                              type: string
+                              example: 00118000011ZZaz
+                            success:
+                              type: boolean
+                              example: true
+                        x360Recover:
+                          type: object
+                          properties:
+                            caseId:
+                              type: string
+                              example: 00118000011ZZax
+                            success:
+                              type: boolean
+                              example: true
+                        x360Sync:
+                          type: object
+                          properties:
+                            caseId:
+                              type: string
+                              example: 00118000011ZZax
+                            success:
+                              type: boolean
+                              example: true
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      parameters:
+        - in: query
+          name: requestor_id
+          required: false
+          description: Salesforce Account ID
+          schema:
+            type: string
+            example: 00118000011XZajAGA
+        - in: query
+          name: company_id
+          required: false
+          description: Company ID returned on response
+          schema:
+            type: string
+            example: 00118000011XZajAGA
+        - in: query
+          name: page
+          required: false
+          description: Query paging
+          schema:
+            type: integer
+            example: 1
+        - in: query
+          name: per_page
+          required: false
+          description: Maximum returns per request (default is 20)
+          schema:
+            type: integer
+            example: 30
+      tags:
+        - provisioning
+      security:
+        - ApiKeyAuth: []
+  /provision/company/{company_id}:
+    post:
+      summary: Provisions service providers for existing account
+      responses:
+        '201':
+          description: Created (returns provision ID)
+          schema:
+            type: object
+            example:
+              id: b9f371c7-5805-5df1-a991-2b1cfcfc075a
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      parameters:
+        - in: path
+          name: company_id
+          required: true
+          description: Company ID
+          schema:
+            type: string
+            example: 00118000011ZZay
+        - in: body
+          name: body
+          description: Service provider details
+          required: false
+          schema:
+            type: object
+            properties:
+              products:
+                type: object
+                properties:
+                  x360Cloud:
+                    type: object
+                    properties:
+                      enabled:
+                        type: boolean
+                        example: true
+                      datacenter:
+                        type: string
+                        enum:
+                          - US
+                          - AMS
+                          - CA
+                        example: US
+                  x360Recover:
+                    type: object
+                    properties:
+                      enabled:
+                        type: boolean
+                        example: true
+                      datacenter:
+                        type: string
+                        enum:
+                          - US
+                          - AMS
+                          - CA
+                        example: US
+                      features:
+                        type: array
+                        items:
+                          type: string
+                          enum:
+                            - Appliance
+                            - D2C
+                            - Private Cloud
+                  x360Sync:
+                    type: object
+                    properties:
+                      enabled:
+                        type: boolean
+                        example: true
+                      datacenter:
+                        type: string
+                        enum:
+                          - US
+                          - AMS
+                          - CA
+                        example: US
+                      configuration:
+                        type: object
+                        example:
+                          ...: check all options available on https://developer.anchorworks.com/v2/#create-an-organization
+      tags:
+        - provisioning
+      security:
+        - ApiKeyAuth: []
+  /usage/company/{company_id}:
+    get:
+      summary: Get a monthly billable usage report for a company
+      responses:
+        '200':
+          description: Success (returns usage results)
+          schema:
+            type: object
+            properties:
+              company:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: MyCompany
+                  address:
+                    type: string
+                    example: 123 Fake Street
+                  state:
+                    type: string
+                    example: CO
+                  postalCode:
+                    type: string
+                    example: 123456
+                  city:
+                    type: string
+                    example: Springfield
+                  country:
+                    type: string
+                    example: United States
+                  phone:
+                    type: string
+                    example: +1(234)567-8901
+                  website:
+                    type: string
+                    example: https://axcient.com/
+              start_date:
+                type: string
+                example: '2022-04-01'
+              end_date:
+                type: string
+                example: '2022-04-30'
+              children:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: '232623'
+                    name:
+                      type: string
+                      example: Example, Inc.
+                    usage:
+                      type: object
+                      properties:
+                        x360Cloud:
+                          type: object
+                          properties:
+                            seats:
+                              type: number
+                              example: 1
+                        x360Recover:
+                          type: object
+                          properties:
+                            applianceServer:
+                              type: number
+                              example: 1
+                            applianceServerLinux:
+                              type: number
+                              example: 1.5
+                            applianceWorkstation:
+                              type: number
+                              example: 3
+                            cloudServer:
+                              type: number
+                              example: 0
+                            cloudServerLinux:
+                              type: number
+                              example: 2
+                            cloudStorage:
+                              type: number
+                              example: 6
+                            cloudWorkstation:
+                              type: number
+                              example: 4.2
+                            d2cPrivateServer:
+                              type: number
+                              example: 1.3
+                            d2cPrivateServerLinux:
+                              type: number
+                              example: 0.6
+                            d2cPrivateWorkstation:
+                              type: number
+                              example: 0.8
+                            d2cServer:
+                              type: number
+                              example: 1
+                            d2cServerLinux:
+                              type: number
+                              example: 10
+                            d2cWorkstation:
+                              type: number
+                              example: 9
+                            privateServer:
+                              type: number
+                              example: 1.3
+                            privateServerLinux:
+                              type: number
+                              example: 1.8
+                            privateWorkstation:
+                              type: number
+                              example: 1.6
+                            storage01TB03Yr:
+                              type: number
+                              example: 2
+                            storage01TB10Yr:
+                              type: number
+                              example: 2.4
+                            storage02TB03Yr:
+                              type: number
+                              example: 2.2
+                            storage02TB10Yr:
+                              type: number
+                              example: 3
+                            storage03TB03Yr:
+                              type: number
+                              example: 4.6
+                            storage03TB10Yr:
+                              type: number
+                              example: 5.7
+                            storage04TB03Yr:
+                              type: number
+                              example: 1
+                            storage04TB10Yr:
+                              type: number
+                              example: 2
+                            storage06TB03Yr:
+                              type: number
+                              example: 0
+                            storage06TB10Yr:
+                              type: number
+                              example: 0.1
+                            storage09TB03Yr:
+                              type: number
+                              example: 0.3
+                            storage09TB10Yr:
+                              type: number
+                              example: 0.9
+                            storage12TB03Yr:
+                              type: number
+                              example: 1.5
+                            storage12TB10Yr:
+                              type: number
+                              example: 1.4
+                            storage15TB03Yr:
+                              type: number
+                              example: 10.1
+                            storage15TB10Yr:
+                              type: number
+                              example: 99.9
+                            storage18TB03Yr:
+                              type: number
+                              example: 3
+                            storage18TB10Yr:
+                              type: number
+                              example: 1.8
+                            storage24TB03Yr:
+                              type: number
+                              example: 2.4
+                            storage24TB10Yr:
+                              type: number
+                              example: 2.5
+                            storage30TB03Yr:
+                              type: number
+                              example: 3
+                            storage30TB10Yr:
+                              type: number
+                              example: 3.1
+                            storage36TB03Yr:
+                              type: number
+                              example: 3.6
+                            storage36TB10Yr:
+                              type: number
+                              example: 3.7
+                            storage500GB03Yr:
+                              type: number
+                              example: 0.5
+                            storage500GB10Yr:
+                              type: number
+                              example: 0.7
+                            virtualOffice:
+                              type: number
+                              example: 0.6
+              usage:
+                type: object
+                properties:
+                  x360Cloud:
+                    type: object
+                    properties:
+                      seats:
+                        type: number
+                        example: 1
+                  x360Recover:
+                    type: object
+                    properties:
+                      applianceServer:
+                        type: number
+                        example: 1
+                      applianceServerLinux:
+                        type: number
+                        example: 1.5
+                      applianceWorkstation:
+                        type: number
+                        example: 3
+                      cloudServer:
+                        type: number
+                        example: 0
+                      cloudServerLinux:
+                        type: number
+                        example: 2
+                      cloudStorage:
+                        type: number
+                        example: 6
+                      cloudWorkstation:
+                        type: number
+                        example: 4.2
+                      d2cPrivateServer:
+                        type: number
+                        example: 1.3
+                      d2cPrivateServerLinux:
+                        type: number
+                        example: 0.6
+                      d2cPrivateWorkstation:
+                        type: number
+                        example: 0.8
+                      d2cServer:
+                        type: number
+                        example: 1
+                      d2cServerLinux:
+                        type: number
+                        example: 10
+                      d2cWorkstation:
+                        type: number
+                        example: 9
+                      privateServer:
+                        type: number
+                        example: 1.3
+                      privateServerLinux:
+                        type: number
+                        example: 1.8
+                      privateWorkstation:
+                        type: number
+                        example: 1.6
+                      storage01TB03Yr:
+                        type: number
+                        example: 2
+                      storage01TB10Yr:
+                        type: number
+                        example: 2.4
+                      storage02TB03Yr:
+                        type: number
+                        example: 2.2
+                      storage02TB10Yr:
+                        type: number
+                        example: 3
+                      storage03TB03Yr:
+                        type: number
+                        example: 4.6
+                      storage03TB10Yr:
+                        type: number
+                        example: 5.7
+                      storage04TB03Yr:
+                        type: number
+                        example: 1
+                      storage04TB10Yr:
+                        type: number
+                        example: 2
+                      storage06TB03Yr:
+                        type: number
+                        example: 0
+                      storage06TB10Yr:
+                        type: number
+                        example: 0.1
+                      storage09TB03Yr:
+                        type: number
+                        example: 0.3
+                      storage09TB10Yr:
+                        type: number
+                        example: 0.9
+                      storage12TB03Yr:
+                        type: number
+                        example: 1.5
+                      storage12TB10Yr:
+                        type: number
+                        example: 1.4
+                      storage15TB03Yr:
+                        type: number
+                        example: 10.1
+                      storage15TB10Yr:
+                        type: number
+                        example: 99.9
+                      storage18TB03Yr:
+                        type: number
+                        example: 3
+                      storage18TB10Yr:
+                        type: number
+                        example: 1.8
+                      storage24TB03Yr:
+                        type: number
+                        example: 2.4
+                      storage24TB10Yr:
+                        type: number
+                        example: 2.5
+                      storage30TB03Yr:
+                        type: number
+                        example: 3
+                      storage30TB10Yr:
+                        type: number
+                        example: 3.1
+                      storage36TB03Yr:
+                        type: number
+                        example: 3.6
+                      storage36TB10Yr:
+                        type: number
+                        example: 3.7
+                      storage500GB03Yr:
+                        type: number
+                        example: 0.5
+                      storage500GB10Yr:
+                        type: number
+                        example: 0.7
+                      virtualOffice:
+                        type: number
+                        example: 0.6
+                      datacenter:
+                        type: string
+                        example: x360Recover AMS
+                      enabled:
+                        type: boolean
+                        example: true
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      parameters:
+        - in: path
+          name: company_id
+          required: true
+          description: Company ID
+          schema:
+            type: string
+            example: 00118000011ZZay
+        - in: query
+          name: start_date
+          description: Start date
+          schema:
+            type: string
+            example: '2022-04-01'
+        - in: query
+          name: end_date
+          description: End date
+          schema:
+            type: string
+            example: '2022-04-30'
+      tags:
+        - company
+      security:
+        - ApiKeyAuth: []
+  /company/{company_id}/usage/billable:
+    get:
+      summary: Get a monthly billable usage report for a company
+      responses:
+        '200':
+          description: Success (returns usage results)
+          schema:
+            type: object
+            properties:
+              company:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: MyCompany
+                  address:
+                    type: string
+                    example: 123 Fake Street
+                  state:
+                    type: string
+                    example: CO
+                  postalCode:
+                    type: string
+                    example: 123456
+                  city:
+                    type: string
+                    example: Springfield
+                  country:
+                    type: string
+                    example: United States
+                  phone:
+                    type: string
+                    example: +1(234)567-8901
+                  website:
+                    type: string
+                    example: https://axcient.com/
+              start_date:
+                type: string
+                example: '2022-04-01'
+              end_date:
+                type: string
+                example: '2022-04-30'
+              children:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: '232623'
+                    name:
+                      type: string
+                      example: Example, Inc.
+                    usage:
+                      type: object
+                      properties:
+                        x360Cloud:
+                          type: object
+                          properties:
+                            seats:
+                              type: number
+                              example: 1
+                        x360Recover:
+                          type: object
+                          properties:
+                            applianceServer:
+                              type: number
+                              example: 1
+                            applianceServerLinux:
+                              type: number
+                              example: 1.5
+                            applianceWorkstation:
+                              type: number
+                              example: 3
+                            cloudServer:
+                              type: number
+                              example: 0
+                            cloudServerLinux:
+                              type: number
+                              example: 2
+                            cloudStorage:
+                              type: number
+                              example: 6
+                            cloudWorkstation:
+                              type: number
+                              example: 4.2
+                            d2cPrivateServer:
+                              type: number
+                              example: 1.3
+                            d2cPrivateServerLinux:
+                              type: number
+                              example: 0.6
+                            d2cPrivateWorkstation:
+                              type: number
+                              example: 0.8
+                            d2cServer:
+                              type: number
+                              example: 1
+                            d2cServerLinux:
+                              type: number
+                              example: 10
+                            d2cWorkstation:
+                              type: number
+                              example: 9
+                            privateServer:
+                              type: number
+                              example: 1.3
+                            privateServerLinux:
+                              type: number
+                              example: 1.8
+                            privateWorkstation:
+                              type: number
+                              example: 1.6
+                            storage01TB03Yr:
+                              type: number
+                              example: 2
+                            storage01TB10Yr:
+                              type: number
+                              example: 2.4
+                            storage02TB03Yr:
+                              type: number
+                              example: 2.2
+                            storage02TB10Yr:
+                              type: number
+                              example: 3
+                            storage03TB03Yr:
+                              type: number
+                              example: 4.6
+                            storage03TB10Yr:
+                              type: number
+                              example: 5.7
+                            storage04TB03Yr:
+                              type: number
+                              example: 1
+                            storage04TB10Yr:
+                              type: number
+                              example: 2
+                            storage06TB03Yr:
+                              type: number
+                              example: 0
+                            storage06TB10Yr:
+                              type: number
+                              example: 0.1
+                            storage09TB03Yr:
+                              type: number
+                              example: 0.3
+                            storage09TB10Yr:
+                              type: number
+                              example: 0.9
+                            storage12TB03Yr:
+                              type: number
+                              example: 1.5
+                            storage12TB10Yr:
+                              type: number
+                              example: 1.4
+                            storage15TB03Yr:
+                              type: number
+                              example: 10.1
+                            storage15TB10Yr:
+                              type: number
+                              example: 99.9
+                            storage18TB03Yr:
+                              type: number
+                              example: 3
+                            storage18TB10Yr:
+                              type: number
+                              example: 1.8
+                            storage24TB03Yr:
+                              type: number
+                              example: 2.4
+                            storage24TB10Yr:
+                              type: number
+                              example: 2.5
+                            storage30TB03Yr:
+                              type: number
+                              example: 3
+                            storage30TB10Yr:
+                              type: number
+                              example: 3.1
+                            storage36TB03Yr:
+                              type: number
+                              example: 3.6
+                            storage36TB10Yr:
+                              type: number
+                              example: 3.7
+                            storage500GB03Yr:
+                              type: number
+                              example: 0.5
+                            storage500GB10Yr:
+                              type: number
+                              example: 0.7
+                            virtualOffice:
+                              type: number
+                              example: 0.6
+              usage:
+                type: object
+                properties:
+                  x360Cloud:
+                    type: object
+                    properties:
+                      seats:
+                        type: number
+                        example: 1
+                  x360Recover:
+                    type: object
+                    properties:
+                      applianceServer:
+                        type: number
+                        example: 1
+                      applianceServerLinux:
+                        type: number
+                        example: 1.5
+                      applianceWorkstation:
+                        type: number
+                        example: 3
+                      cloudServer:
+                        type: number
+                        example: 0
+                      cloudServerLinux:
+                        type: number
+                        example: 2
+                      cloudStorage:
+                        type: number
+                        example: 6
+                      cloudWorkstation:
+                        type: number
+                        example: 4.2
+                      d2cPrivateServer:
+                        type: number
+                        example: 1.3
+                      d2cPrivateServerLinux:
+                        type: number
+                        example: 0.6
+                      d2cPrivateWorkstation:
+                        type: number
+                        example: 0.8
+                      d2cServer:
+                        type: number
+                        example: 1
+                      d2cServerLinux:
+                        type: number
+                        example: 10
+                      d2cWorkstation:
+                        type: number
+                        example: 9
+                      privateServer:
+                        type: number
+                        example: 1.3
+                      privateServerLinux:
+                        type: number
+                        example: 1.8
+                      privateWorkstation:
+                        type: number
+                        example: 1.6
+                      storage01TB03Yr:
+                        type: number
+                        example: 2
+                      storage01TB10Yr:
+                        type: number
+                        example: 2.4
+                      storage02TB03Yr:
+                        type: number
+                        example: 2.2
+                      storage02TB10Yr:
+                        type: number
+                        example: 3
+                      storage03TB03Yr:
+                        type: number
+                        example: 4.6
+                      storage03TB10Yr:
+                        type: number
+                        example: 5.7
+                      storage04TB03Yr:
+                        type: number
+                        example: 1
+                      storage04TB10Yr:
+                        type: number
+                        example: 2
+                      storage06TB03Yr:
+                        type: number
+                        example: 0
+                      storage06TB10Yr:
+                        type: number
+                        example: 0.1
+                      storage09TB03Yr:
+                        type: number
+                        example: 0.3
+                      storage09TB10Yr:
+                        type: number
+                        example: 0.9
+                      storage12TB03Yr:
+                        type: number
+                        example: 1.5
+                      storage12TB10Yr:
+                        type: number
+                        example: 1.4
+                      storage15TB03Yr:
+                        type: number
+                        example: 10.1
+                      storage15TB10Yr:
+                        type: number
+                        example: 99.9
+                      storage18TB03Yr:
+                        type: number
+                        example: 3
+                      storage18TB10Yr:
+                        type: number
+                        example: 1.8
+                      storage24TB03Yr:
+                        type: number
+                        example: 2.4
+                      storage24TB10Yr:
+                        type: number
+                        example: 2.5
+                      storage30TB03Yr:
+                        type: number
+                        example: 3
+                      storage30TB10Yr:
+                        type: number
+                        example: 3.1
+                      storage36TB03Yr:
+                        type: number
+                        example: 3.6
+                      storage36TB10Yr:
+                        type: number
+                        example: 3.7
+                      storage500GB03Yr:
+                        type: number
+                        example: 0.5
+                      storage500GB10Yr:
+                        type: number
+                        example: 0.7
+                      virtualOffice:
+                        type: number
+                        example: 0.6
+                      datacenter:
+                        type: string
+                        example: x360Recover AMS
+                      enabled:
+                        type: boolean
+                        example: true
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      parameters:
+        - in: path
+          name: company_id
+          required: true
+          description: Company ID
+          schema:
+            type: string
+            example: 00118000011ZZay
+        - in: query
+          name: start_date
+          description: Start date
+          schema:
+            type: string
+            example: '2022-04-01'
+        - in: query
+          name: end_date
+          description: End date
+          schema:
+            type: string
+            example: '2022-04-30'
+      tags:
+        - company
+      security:
+        - ApiKeyAuth: []
+  /version:
+    get:
+      summary: Returns the API version
+      responses:
+        '200':
+          description: Success (returns the API version)
+      tags:
+        - general
+definitions: {}
+swagger: '2.0'
+securityDefinitions:
+  ApiKeyAuth:
+    type: apiKey
+    in: header
+    name: X-API-Key
