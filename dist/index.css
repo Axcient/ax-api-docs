@@ -14,3 +14,6 @@ body {
     margin: 0;
     background: #fafafa;
 }
+.topbar-wrapper img {
+    content: url(https://axcient.com/app/webp-express/webp-images/doc-root/app/uploads/2023/11/logo_main-150x36.png.webp);
+}
