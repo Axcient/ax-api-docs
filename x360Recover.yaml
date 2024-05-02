@@ -1,11 +1,21 @@
 openapi: 3.0.0
 info:
-  title: RMC Organization Public API
-  description: This API is created for the public use of Axcient Organizations. It contains functions for getting information about vaults, clients, devices, and jobs.
+  title: x360Recover API
+  description:  Welcome to our Public API! Explore the available endpoints below to integrate with our services.
+
+    **API Key Creation:** To find information on how to create API keys, visit [help.axcient.com](https://help.axcient.com).
+
+    **Mock Servers:** If you want to test against mock servers, use [https://ax-pub-recover.wiremockapi.cloud/](https://ax-pub-recover.wiremockapi.cloud/) as your base URL.
+
+    **Support Contacts:**
+    - **Vendor Support:** For vendor support, please email [api@axcient.com](mailto:api@axcient.com).
+    - **Partner Support:** Partners can log a ticket within the [x360Portal](https://x360portal.com) for assistance.
   version: 0.2.1
 servers:
   - url: https://api.developer.axcient.com/x360recover
-    description: Organization API URL on production server
+    description: Production
+  - url: https://ax-pub-recover.wiremockapi.cloud/
+    description: Mock Server
 tags:
   - name: vault
     description: These requests are used for managing vaults
