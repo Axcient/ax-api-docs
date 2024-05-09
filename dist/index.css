@@ -15,9 +15,9 @@ body {
     background: #fafafa;
 }
 
-.swagger-ui svg:not(:root) {
-  display: none;
-}
 .topbar-wrapper .link:before {
   content: url('https://axcient.com/app/webp-express/webp-images/doc-root/app/uploads/2023/11/logo_main-150x36.png.webp');
+}
+.logo_small_svg__SW_TM-logo-on-dark {
+    display: none;
 }
