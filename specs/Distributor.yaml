@@ -1,12 +1,14 @@
 info:
   title: Distributor API
-  version: 1.26.2
   description: |
-  Welcome to the Axcient Distributor API.
-
-  This API is intended for Distribution Partners to Provision new Accounts and Generate Usage information.  Distributors looking to take advantage of this API can email [api@axcient.com](mailto:api@axcient.com) to learn more about partnering with Axcient.  This API is not available to partners.
+    Welcome to the Axcient Distributor API.  
+    
+    This API is intended for Distribution Partners to Provision new Accounts and Generate Usage information.  This API is not available to partners.
+    
+    Distributors looking to take advantage of this API can email [api@axcient.com](mailto:api@axcient.com) to learn more about partnering with Axcient. 
+  version: 1.26.2
 paths:
-  /company/{company_id}:
+  '/company/{company_id}':
     get:
       summary: Get company details
       responses:
@@ -41,7 +43,7 @@ paths:
                 example: +1(234)567-8901
               website:
                 type: string
-                example: https://axcient.com/
+                example: 'https://axcient.com/'
               products:
                 type: object
                 properties:
@@ -135,7 +137,7 @@ paths:
         - company
       security:
         - ApiKeyAuth: []
-  /company/{company_id}/usage:
+  '/company/{company_id}/usage':
     get:
       summary: Get a report of actual usage for a company
       responses:
@@ -160,7 +162,7 @@ paths:
                       example: '232623'
                     name:
                       type: string
-                      example: Example, Inc.
+                      example: 'Example, Inc.'
                     product:
                       type: string
                       example: x360Recover
@@ -479,7 +481,7 @@ paths:
         - company
       security:
         - ApiKeyAuth: []
-  /company/{company_id}/usage/actual:
+  '/company/{company_id}/usage/actual':
     get:
       summary: Get a report of actual usage for a company
       responses:
@@ -504,7 +506,7 @@ paths:
                       example: '232623'
                     name:
                       type: string
-                      example: Example, Inc.
+                      example: 'Example, Inc.'
                     product:
                       type: string
                       example: x360Recover
@@ -871,7 +873,7 @@ paths:
                       example: +1(234)567-8901
                     website:
                       type: string
-                      example: https://axcient.com/
+                      example: 'https://axcient.com/'
                     products:
                       type: object
                       properties:
@@ -970,7 +972,7 @@ paths:
         - company
       security:
         - ApiKeyAuth: []
-  /convertId/company/{company_id}:
+  '/convertId/company/{company_id}':
     get:
       summary: Returns associated service provider IDs
       responses:
@@ -1014,7 +1016,7 @@ paths:
         - convert
       security:
         - ApiKeyAuth: []
-  /convertId/{product}/{product_id}:
+  '/convertId/{product}/{product_id}':
     get:
       summary: Returns associated company IDs
       responses:
@@ -1065,7 +1067,7 @@ paths:
         - convert
       security:
         - ApiKeyAuth: []
-  /provision/{id}:
+  '/provision/{id}':
     get:
       summary: Gets provisioning job result
       responses:
@@ -1109,7 +1111,7 @@ paths:
                             example: +1(234)567-8901
                           website:
                             type: string
-                            example: https://axcient.com/
+                            example: 'https://axcient.com/'
                       users:
                         type: array
                         items:
@@ -1274,7 +1276,7 @@ paths:
       parameters:
         - in: body
           name: body
-          description: Account, contact and service provider details
+          description: 'Account, contact and service provider details'
           required: false
           schema:
             type: object
@@ -1312,7 +1314,7 @@ paths:
                     required: true
                   website:
                     type: string
-                    example: https://axcient.com/
+                    example: 'https://axcient.com/'
               users:
                 type: array
                 required: true
@@ -1401,7 +1403,9 @@ paths:
                       configuration:
                         type: object
                         example:
-                          ...: check all options available on https://developer.anchorworks.com/v2/#create-an-organization
+                          ...: >-
+                            check all options available on
+                            https://developer.anchorworks.com/v2/#create-an-organization
       tags:
         - provisioning
       security:
@@ -1463,7 +1467,7 @@ paths:
                                 example: +1(234)567-8901
                               website:
                                 type: string
-                                example: https://axcient.com/
+                                example: 'https://axcient.com/'
                             users:
                               type: array
                               items:
@@ -1630,7 +1634,7 @@ paths:
         - provisioning
       security:
         - ApiKeyAuth: []
-  /provision/company/{company_id}:
+  '/provision/company/{company_id}':
     post:
       summary: Provisions service providers for existing account
       responses:
@@ -1714,12 +1718,14 @@ paths:
                       configuration:
                         type: object
                         example:
-                          ...: check all options available on https://developer.anchorworks.com/v2/#create-an-organization
+                          ...: >-
+                            check all options available on
+                            https://developer.anchorworks.com/v2/#create-an-organization
       tags:
         - provisioning
       security:
         - ApiKeyAuth: []
-  /usage/company/{company_id}:
+  '/usage/company/{company_id}':
     get:
       summary: Get a monthly billable usage report for a company
       responses:
@@ -1754,7 +1760,7 @@ paths:
                     example: +1(234)567-8901
                   website:
                     type: string
-                    example: https://axcient.com/
+                    example: 'https://axcient.com/'
               start_date:
                 type: string
                 example: '2022-04-01'
@@ -1771,7 +1777,7 @@ paths:
                       example: '232623'
                     name:
                       type: string
-                      example: Example, Inc.
+                      example: 'Example, Inc.'
                     usage:
                       type: object
                       properties:
@@ -2088,7 +2094,7 @@ paths:
         - company
       security:
         - ApiKeyAuth: []
-  /company/{company_id}/usage/billable:
+  '/company/{company_id}/usage/billable':
     get:
       summary: Get a monthly billable usage report for a company
       responses:
@@ -2123,7 +2129,7 @@ paths:
                     example: +1(234)567-8901
                   website:
                     type: string
-                    example: https://axcient.com/
+                    example: 'https://axcient.com/'
               start_date:
                 type: string
                 example: '2022-04-01'
@@ -2140,7 +2146,7 @@ paths:
                       example: '232623'
                     name:
                       type: string
-                      example: Example, Inc.
+                      example: 'Example, Inc.'
                     usage:
                       type: object
                       properties:
