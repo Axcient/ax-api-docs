@@ -1,7 +1,10 @@
 info:
-  title: Axcient API
+  title: Distributor API
   version: 1.26.2
-  description: ''
+  description: |
+  Welcome to the Axcient Distributor API.
+
+  This API is intended for Distribution Partners to Provision new Accounts and Generate Usage information.  Distributors looking to take advantage of this API can email [api@axcient.com](mailto:api@axcient.com) to learn more about partnering with Axcient.  This API is not available to partners.
 paths:
   /company/{company_id}:
     get:
