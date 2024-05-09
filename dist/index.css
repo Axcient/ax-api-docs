@@ -1,23 +1,24 @@
 html {
-    box-sizing: border-box;
-    overflow: -moz-scrollbars-vertical;
-    overflow-y: scroll;
+	box-sizing: border-box;
+	overflow: -moz-scrollbars-vertical;
+	overflow-y: scroll;
 }
 
 *,
 *:before,
 *:after {
-    box-sizing: inherit;
+	box-sizing: inherit;
 }
 
 body {
-    margin: 0;
-    background: #fafafa;
+	margin: 0;
+	background: #fafafa;
+}
+
+.swagger-ui svg:not(:root) {
+	display: none;
 }
 
 .topbar-wrapper .link:before {
-  content: url('https://axcient.com/app/webp-express/webp-images/doc-root/app/uploads/2023/11/logo_main-150x36.png.webp');
-}
-g.logo_small_svg__SW_TM-logo-on-dark {
-    display: none;
+	content: url('https://axcient.com/app/webp-express/webp-images/doc-root/app/uploads/2023/11/logo_main-150x36.png.webp');
 }
