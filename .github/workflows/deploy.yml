@@ -36,7 +36,9 @@ jobs:
             echo "using Staging environment"
             echo "using Staging environment"
           else
+            echo "Setting environment to Development"
             echo "env_name=Development" >> $GITHUB_OUTPUT
+            echo "using Development environment"
             echo "using Development environment"
           fi
     outputs:
