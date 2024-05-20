@@ -65,6 +65,7 @@ jobs:
           echo "Starting S3 deployment..."
           echo "Deploying files from ./dist/ to s3://$S3_BUCKET/"
           aws s3 cp ./dist/ s3://$S3_BUCKET/ --recursive --only-show-errors
+          echo "Deploying files from ./specs/ to s3://$S3_BUCKET/"
           aws s3 cp ./specs/ s3://$S3_BUCKET/ --recursive --only-show-errors
           aws s3 cp ./index.html s3://$S3_BUCKET/ --only-show-errors
       - name: Invalidate CloudFront Cache
