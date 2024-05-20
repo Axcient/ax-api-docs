@@ -41,6 +41,7 @@ jobs:
             echo "using Development environment"
             echo "using Development environment"
           fi
+          echo "Environment setup complete."
     outputs:
       env_name: ${{steps.set_environment.outputs.env_name}}
 
