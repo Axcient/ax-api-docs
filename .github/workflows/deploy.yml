@@ -26,7 +26,9 @@ jobs:
           echo "Starting environment setup..."
           echo "Running on branch ${{ github.ref_name }}"
           if [ "${{ github.ref_name }}" = "production" ]; then
+            echo "Setting environment to Production"
             echo "env_name=Production" >> $GITHUB_OUTPUT
+            echo "using Production environment"
             echo "using Production environment"
           elif [ "${{ github.ref_name }}" = "staging" ]; then
             echo "env_name=Staging" >> $GITHUB_OUTPUT
