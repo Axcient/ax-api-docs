@@ -23,6 +23,7 @@ jobs:
       - name: Set environment based on ref
         id: set_environment
         run: |
+          echo "Starting environment setup..."
           echo "Running on branch ${{ github.ref_name }}"
           if [ "${{ github.ref_name }}" = "production" ]; then
             echo "env_name=Production" >> $GITHUB_OUTPUT
