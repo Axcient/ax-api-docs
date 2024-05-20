@@ -76,4 +76,6 @@ jobs:
           AWS_REGION:  ${{ env.AWS_REGION }}
           DISTRIBUTION_ID: ${{ env.DISTRIBUTION_ID }}
         run: |
+          echo "Invalidating CloudFront cache..."
           aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths $SOURCE_PATH --region $AWS_REGION
+          echo "CloudFront cache invalidation complete."
