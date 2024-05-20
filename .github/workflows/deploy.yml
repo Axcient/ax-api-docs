@@ -29,16 +29,13 @@ jobs:
             echo "Setting environment to Production"
             echo "env_name=Production" >> $GITHUB_OUTPUT
             echo "using Production environment"
-            echo "using Production environment"
           elif [ "${{ github.ref_name }}" = "staging" ]; then
             echo "Setting environment to Staging"
             echo "env_name=Staging" >> $GITHUB_OUTPUT
             echo "using Staging environment"
-            echo "using Staging environment"
           else
             echo "Setting environment to Development"
             echo "env_name=Development" >> $GITHUB_OUTPUT
-            echo "using Development environment"
             echo "using Development environment"
           fi
           echo "Environment setup complete."
