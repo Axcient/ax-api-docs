@@ -21,6 +21,8 @@ servers:
     description: Production
   - url: https://ax-pub-recover.wiremockapi.cloud/
     description: Mock Server
+security:
+  - x-api-key: []
 tags:
   - name: vault
     description: These requests are used for managing vaults
@@ -49,24 +51,66 @@ paths:
             type: integer
             format: int64
       responses:
-        '200':
+        "200":
           description: A JSON vault information
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/vault'
-        '400':
+        "400":
           description: The specified vault ID is invalid (not a number).
-        '401':
+        "401":
           description: Access token is missing or invalid
-        '404':
+        "404":
           description: A vault with the specified ID was not found.
         default:
           description: Unexpected error
       security:
         - x-api-key: []
       x-openapi-router-controller: app.mod_public_api.controllers.vaults_controller
-  /threshold:
+  /appliance/{appliance_id}:
+    get:
+      tags:
+        - appliance
+      summary: Returns appliance information by its ID
+      description: This request returns information about appliance and assigned devices.
+      operationId: get_appliance_by_id
+      parameters:
+        - name: appliance_id
+          in: path
+          description: The ID of the appliance to return.
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int64
+        - name: include_devices
+          in: query
+          description: Return device list for the appliance if True
+          required: false
+          schema:
+            type: boolean
+            default: true
+      responses:
+        "200":
+          description: A JSON appliance information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/appliance'
+        "400":
+          description: The specified appliance ID is invalid (not a number).
+        "401":
+          description: Access token is missing or invalid
+        "404":
+          description: An appliance with the specified ID was not found.
+        default:
+          description: Unexpected error
+      security:
+        - x-api-key: [ ]
+      x-openapi-router-controller: app.mod_public_api.controllers.appliances_controller
+  /vault/{vault_id}/threshold/connectivity:
     get:
       tags:
         - vault
@@ -75,26 +119,26 @@ paths:
       operationId: get_threshold_by_vault_id
       parameters:
         - name: vault_id
-          in: query
+          in: path
           description: The ID of the vault to return.
           required: true
-          style: form
-          explode: true
+          style: simple
+          explode: false
           schema:
             type: integer
             format: int64
       responses:
-        '200':
+        "200":
           description: A JSON information about thresholds
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/vault_thresholds'
-        '400':
+                $ref: '#/components/schemas/vault_threshold_body'
+        "400":
           description: The specified vault ID is invalid (not a number).
-        '401':
+        "401":
           description: Access token is missing or invalid
-        '404':
+        "404":
           description: A vault with the specified ID was not found.
         default:
           description: Unexpected error
@@ -105,25 +149,118 @@ paths:
       summary: Allows to set vault threshold by vault ID
       description: This request allows to change all available vault thresholds.
       operationId: set_threshold_by_vault_id
+      parameters:
+        - name: vault_id
+          in: path
+          description: The ID of the vault to return.
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int64
       requestBody:
         description: Optional description in *Markdown*
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/vault_thresholds'
+              $ref: '#/components/schemas/vault_threshold_body'
       responses:
-        '200':
+        "200":
           description: A JSON information about thresholds
-        '400':
-          description: The specified vault ID or threshold value is invalid (not a number).
-        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/vault_threshold_body'
+        "400":
+          description: The specified vault ID or threshold value is invalid (not a
+            number).
+        "401":
           description: Access token is missing or invalid
-        '404':
+        "404":
           description: A vault with the specified ID was not found.
         default:
           description: Unexpected error
       x-openapi-router-controller: app.mod_public_api.controllers.vaults_controller
+  /device/{device_id}/autoverify:
+    get:
+      tags:
+        - device
+      summary: Returns information about AutoVerify for the given protected system
+      description: Returns information about AutoVerify for the given protected system by it's id.
+      operationId: get_device_autoverify_results_by_id_org_level
+      parameters:
+        - name: device_id
+          in: path
+          description: The ID of the device.
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: A JSON information about AutoVerify results
+          content:
+            application/json:
+              schema:
+                type: array
+                description: List of Autoverify results
+                items:
+                  $ref: '#/components/schemas/machine_autoverify_details'
+                x-content-type: application/json
+        "400":
+          description: The specified device ID is invalid (not a number).
+        "401":
+          description: Access token is missing or invalid
+        "404":
+          description: A device with the specified ID was not found.
+        default:
+          description: Unexpected error
+      security:
+          - x-api-key: [ ]
+      x-openapi-router-controller: app.mod_public_api.controllers.devices_controller
+  /device/{device_id}/restore_point:
+    get:
+      tags:
+        - device
+      summary: Returns information about device's restore points grouped by Cloud Vaults is replicated on
+      description: Returns information about device's restore points grouped by Cloud Vaults is replicated on
+      operationId: get_device_vault_restore_point_by_id_org_level
+      parameters:
+        - name: device_id
+          in: path
+          description: The ID of the device.
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: A JSON information about device's restore points on their Cloud Vaults
+          content:
+            application/json:
+              schema:
+                type: array
+                description: List of Restore Points on their Cloud Vaults
+                items:
+                  $ref: '#/components/schemas/machine_restore_points'
+                x-content-type: application/json
+        "400":
+          description: The specified device ID is invalid (not a number).
+        "401":
+          description: Access token is missing or invalid
+        "404":
+          description: A device with the specified ID was not found.
+        default:
+          description: Unexpected error
+      security:
+          - x-api-key: [ ]
+      x-openapi-router-controller: app.mod_public_api.controllers.devices_controller
   /device/{device_id}:
     get:
       tags:
@@ -142,29 +279,38 @@ paths:
             type: integer
             format: int64
       responses:
-        '200':
+        "200":
           description: A JSON information about device
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/device'
-        '400':
+        "400":
           description: The specified device ID is invalid (not a number).
-        '401':
+        "401":
           description: Access token is missing or invalid
-        '404':
+        "404":
           description: A device with the specified ID was not found.
         default:
           description: Unexpected error
       x-openapi-router-controller: app.mod_public_api.controllers.devices_controller
-  /device:
+  /client/{client_id}/device:
     get:
       tags:
         - device
       summary: Returns information about device by service ID
       description: This request returns information about all devices for this service or client.
-      operationId: get_devices_by_service_id_or_client_id
+      operationId: get_devices_by_client_id
       parameters:
+        - name: client_id
+          in: path
+          description: The unique ID of the client.
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int64
         - name: service_id
           in: query
           description: The SID of the service (4 symbols).
@@ -173,16 +319,17 @@ paths:
           explode: false
           schema:
             type: string
-        - name: client_id
+        - name: d2c_only
           in: query
-          description: The unique ID of the client.
+          description: Include D2C devices only.
           required: false
           style: form
           explode: false
           schema:
-            type: integer
+            type: boolean
+            default: false
       responses:
-        '200':
+        "200":
           description: A JSON information about devices
           content:
             application/json:
@@ -192,16 +339,16 @@ paths:
                 items:
                   $ref: '#/components/schemas/device'
                 x-content-type: application/json
-        '400':
+        "400":
           description: The specified SID is invalid (string).
-        '401':
+        "401":
           description: Access token is missing or invalid
-        '404':
+        "404":
           description: A service with the specified SID was not found.
         default:
           description: Unexpected error
       x-openapi-router-controller: app.mod_public_api.controllers.devices_controller
-  /job/{job_id}:
+  /client/{client_id}/device/{device_id}/job/{job_id}:
     get:
       tags:
         - job
@@ -209,6 +356,24 @@ paths:
       description: This request returns information about job by it's ID.
       operationId: get_job_by_id_org_level
       parameters:
+        - name: client_id
+          in: path
+          description: The unique ID of the client.
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int64
+        - name: device_id
+          in: path
+          description: The ID of the device.
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int64
         - name: job_id
           in: path
           description: The ID of the job.
@@ -219,22 +384,105 @@ paths:
             type: integer
             format: int64
       responses:
-        '200':
+        "200":
           description: A JSON information about job
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/jobs_response'
-        '400':
+        "400":
           description: The specified job ID is invalid (not a number).
-        '401':
+        "401":
           description: Access token is missing or invalid
-        '404':
+        "404":
           description: A job with the specified ID was not found.
         default:
           description: Unexpected error
       x-openapi-router-controller: app.mod_public_api.controllers.jobs_controller
-  /job:
+  /client/{client_id}/device/{device_id}/job/{job_id}/history:
+    get:
+      tags:
+        - job
+      summary: Returns information about job history for specified job
+      description: This request returns information about job history by it's job ID.
+      operationId: get_job_history_org_level
+      parameters:
+        - name: org_id
+          in: path
+          description: The ID of the organization.
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int64
+        - name: client_id
+          in: path
+          description: The unique ID of the client.
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int64
+        - name: device_id
+          in: path
+          description: The ID of the device.
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int64
+        - name: job_id
+          in: path
+          description: The ID of the job.
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int64
+        - name: limit
+          in: query
+          description: Records limit for pagination
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: offset
+          in: query
+          description: Records offset for pagination
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: starttime_begin
+          in: query
+          description: unix timestamp of minimum backup start time value
+          required: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: A JSON information about job
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/job_history'
+        "400":
+          description: The specified job ID is invalid (not a number).
+        "401":
+          description: Access token is missing or invalid
+        "404":
+          description: A job with the specified ID was not found.
+        default:
+          description: Unexpected error
+      security:
+          - x-api-key: [ ]
+      x-openapi-router-controller: app.mod_public_api.controllers.jobs_controller
+  /client/{client_id}/device/{device_id}/job:
     get:
       tags:
         - job
@@ -242,17 +490,26 @@ paths:
       description: This request returns information about all jobs for this device.
       operationId: get_jobs_by_device_id_org_level
       parameters:
+        - name: client_id
+          in: path
+          description: The unique ID of the client.
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int64
         - name: device_id
-          in: query
+          in: path
           description: The ID of the device.
           required: true
-          style: form
-          explode: true
+          style: simple
+          explode: false
           schema:
             type: integer
             format: int64
       responses:
-        '200':
+        "200":
           description: A JSON information about jobs
           content:
             application/json:
@@ -262,11 +519,11 @@ paths:
                 items:
                   $ref: '#/components/schemas/jobs_response'
                 x-content-type: application/json
-        '400':
+        "400":
           description: The specified device ID is invalid (not a number).
-        '401':
+        "401":
           description: Access token is missing or invalid
-        '404':
+        "404":
           description: A device with the specified ID was not found.
         default:
           description: Unexpected error
@@ -278,49 +535,385 @@ paths:
       summary: Returns vaults information by organization ID
       description: This request returns information about vaults and assigned devices.
       operationId: get_vaults
+      parameters:
+        - name: vault_type
+          in: query
+          description: Filter only private or only cloud vaults
+          required: false
+          schema:
+            type: string
+            enum:
+              - Private
+              - Cloud
+        - name: active
+          in: query
+          description: Filter by active state
+          required: false
+          schema:
+            type: boolean
+        - name: with_url
+          in: query
+          description: Filter by URL presence
+          required: false
+          schema:
+            type: boolean
+        - name: limit
+          in: query
+          description: Max amount of vaults in response
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: include_devices
+          in: query
+          description: Return device list for each vault if True
+          required: false
+          schema:
+            type: boolean
+            default: true
       responses:
-        '200':
+        "200":
           description: A JSON information of organization's vaults
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/vault'
-        '400':
+        "400":
           description: The specified organization ID is invalid (not a number).
-        '401':
+        "401":
           description: Access token is missing or invalid
-        '404':
+        "404":
           description: A organization with the specified ID was not found.
         default:
           description: Unexpected error
       security:
-        - x-api-key: []
+        - x-api-key: [ ]
       x-openapi-router-controller: app.mod_public_api.controllers.vaults_controller
-  /client:
+  /client/{client_id}:
     get:
       tags:
         - client
-      summary: Returns clients information for organization related to a user
-      description: This request returns information about clients and their helath.
-      operationId: get_clients
+      summary: Returns the client information for organization related to the user by client ID
+      description: This request returns information about the client and its health.
+      operationId: get_clients_by_client_id
+      parameters:
+        - name: client_id
+          in: path
+          description: The ID of the client.
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int64
+        - name: include_appliances
+          in: query
+          description: Include short appliances information to response or not
+          required: false
+          style: form
+          explode: false
+          schema:
+            type: boolean
+            default: false
       responses:
-        '200':
+        "200":
           description: A JSON information of organization's clients
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/client'
-        '401':
+        "401":
           description: Access token is missing or invalid
-        '404':
+        "404":
           description: A organization for issued user is not found
         default:
           description: Unexpected error
       security:
-        - x-api-key: []
+        - x-api-key: [ ]
       x-openapi-router-controller: app.mod_public_api.controllers.clients_controller
+  /client:
+    get:
+      tags:
+        - client
+      summary: Returns clients information for organization related to a user
+      description: This request returns information about clients and their health.
+      operationId: get_clients
+      parameters:
+        - name: include_appliances
+          in: query
+          description: Include short appliances information to response or not
+          required: false
+          style: form
+          explode: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        "200":
+          description: A JSON information of organization's clients
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/client'
+        "401":
+          description: Access token is missing or invalid
+        "404":
+          description: A organization for issued user is not found
+        default:
+          description: Unexpected error
+      security:
+        - x-api-key: [ ]
+      x-openapi-router-controller: app.mod_public_api.controllers.clients_controller
+  /client/{client_id}/appliance:
+    get:
+      tags:
+        - appliance
+      summary: Returns list of appliances belonging to the provided client
+      description: This request returns list of appliances belonging to the provided client.
+      operationId: get_appliances_by_client_id
+      parameters:
+        - name: client_id
+          in: path
+          description: The ID of the client of organization.
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int64
+        - name: include_devices
+          in: query
+          description: Return device list for each appliances if True
+          required: false
+          schema:
+            type: boolean
+            default: true
+      responses:
+        "200":
+          description: A JSON information with list of appliances
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/appliance'
+        "400":
+          description: The specified client ID is invalid (not a number).
+        "401":
+          description: Access token is missing or invalid
+        "404":
+          description: A client with the specified ID was not found.
+        default:
+          description: Unexpected error
+      security:
+        - x-api-key: [ ]
+      x-openapi-router-controller: app.mod_public_api.controllers.appliances_controller
+  /appliance:
+    get:
+      tags:
+        - appliance
+      summary: Returns list of appliances belonging to the organization related to the user
+      description: This request returns list of appliances belonging to the organization related to the user
+      operationId: get_appliances
+      parameters:
+        - name: service_id
+          in: query
+          description: Unique serial number of the service (4 symbols).
+          required: false
+          style: form
+          explode: false
+          schema:
+            type: string
+        - name: include_devices
+          in: query
+          description: Return device list for each appliances if True
+          required: false
+          schema:
+            type: boolean
+            default: true
+      responses:
+        "200":
+          description: A JSON information with list of appliances
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/appliance'
+        "401":
+          description: Access token is missing or invalid
+        default:
+          description: Unexpected error
+      security:
+        - x-api-key: [ ]
+      x-openapi-router-controller: app.mod_public_api.controllers.appliances_controller
+  /organization:
+    get:
+      tags:
+        - organization
+      summary: Returns information about organization retrieved by auth data
+      description: This request returns information about organization retrieved by auth data
+      operationId: get_organization
+      responses:
+        "200":
+          description: A JSON information about organization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/organization'
+        "401":
+          description: Access token is missing or invalid
+        default:
+          description: Unexpected error
+      security:
+        - x-api-key: [ ]
+      x-openapi-router-controller: app.mod_public_api.controllers.organization_controller
 components:
   schemas:
+    appliance:
+      type: object
+      properties:
+        id_:
+          type: integer
+          description: Unique appliance identifier
+          format: int64
+        service_id:
+          type: string
+          description: 4-symbols SID of appliance
+          example: abcd
+        alias:
+          type: string
+          description: Appliance alias
+          example: MyAppliance
+        ip_address:
+          type: string
+          description: Appliance IP-address
+        server_id:
+          type: string
+          description: Unique server identifier
+        active:
+          type: boolean
+          description: Flag describing if this appliance is active
+        product:
+          type: string
+          description: Appliance product
+          enum:
+            - BRC
+            - X360RECOVER
+        model:
+          $ref: '#/components/schemas/server_model'
+        package:
+          $ref: '#/components/schemas/package'
+        service_type:
+          type: string
+          description: Type of the service HARDWARE/VIRTUAL
+          example: HARDWARE
+          enum:
+            - HARDWARE
+            - VIRTUAL
+        last_tunnel_up:
+          type: string
+          description: Timestamp describing when tunnel was up last time
+          
+        tunnel_status:
+          type: string
+          description: Flag describing tunnel status
+          example: UP
+          enum:
+            - UP
+            - DOWN
+        storage_details:
+          $ref: '#/components/schemas/storage_details'
+        devices:
+          type: array
+          description: List of devices with some additional information
+          items:
+            $ref: '#/components/schemas/short_appliance_device'
+        software_version:
+          $ref: '#/components/schemas/version'
+        health_status:
+          type: string
+          description: Health status of the appliance
+          example: NORMAL
+        health_status_reason:
+          type: string
+          description: The reason of current health status
+          example: APPLIANCE_OFFLINE
+      example:
+        devices:
+          ip_address: 10.2.23.2
+          os: WINDOWS
+          id_: 6
+          name: RMC_device
+          type: SERVER
+          local_usage: 132153611
+          latest_local_rp: 2023-01-20T04:56:07Z
+        id_: 1
+        active: true
+        service_id: abcd
+        ip_address: 10.2.22.1
+        server_id: 7099d6d7-67cd-4809-b6bc-81dc91c5d082
+        alias: TestAppliance
+        product: X360RECOVER
+        storage_details:
+          drive_size: 58581416960
+          used_size: 40900613898
+        service_type: HARDWARE
+        tunnel_status: UP
+        last_tunnel_up: 2023-01-20T04:56:07Z
+        model:
+          id_: 392
+          name: BYOD
+        package:
+          id_: 10
+          name: Axcient Replibit
+        software_version:
+          id_: 15
+          version: 10.1.0
+        health_status: TROUBLED
+        health_status_reason: FULL_90_PERCENT
+    short_appliance:
+      type: object
+      properties:
+        id_:
+          type: integer
+          description: Unique appliance identifier
+          format: int64
+        service_id:
+          type: string
+          description: 4-symbols SID of appliance
+          example: abcd
+        alias:
+          type: string
+          description: Appliance alias
+          example: MyAppliance
+        ip_address:
+          type: string
+          description: Appliance IP-address
+        server_id:
+          type: string
+          description: Unique server identifier
+        active:
+          type: boolean
+          description: Flag describing if this appliance is active
+        product:
+          type: string
+          description: Appliance product
+          enum:
+            - BRC
+            - X360RECOVER
+        service_type:
+          type: string
+          description: Type of the service HARDWARE/VIRTUAL
+          example: HARDWARE
+          enum:
+            - HARDWARE
+            - VIRTUAL
+      example:
+        id_: 1
+        active: true
+        service_id: abcd
+        ip_address: 10.2.22.1
+        server_id: 7099d6d7-67cd-4809-b6bc-81dc91c5d082
+        alias: TestAppliance
+        product: X360RECOVER
+        service_type: HARDWARE
     vault:
       type: object
       properties:
@@ -332,10 +925,6 @@ components:
           type: string
           description: 4-symbols SID of vault
           example: abcd
-        reseller_id:
-          type: integer
-          description: Unique organization identifier
-          format: int64
         name:
           type: string
           description: Name of the vault
@@ -356,7 +945,7 @@ components:
             - Cloud
             - Private
         model:
-          $ref: '#/components/schemas/vault_model'
+          $ref: '#/components/schemas/server_model'
         service_type:
           type: string
           description: Type of the service HARDWARE/VIRTUAL
@@ -367,7 +956,6 @@ components:
         last_tunnel_up:
           type: string
           description: Timestamp describing when tunnel was up last time
-          format: date-time
         tunnel_status:
           type: string
           description: Flag discribing tunnel status
@@ -375,8 +963,8 @@ components:
           enum:
             - UP
             - DOWN
-        vault_statistics:
-          $ref: '#/components/schemas/vault_statistics'
+        storage_details:
+          $ref: '#/components/schemas/storage_details'
         devices:
           type: array
           description: List of devices with some additional information
@@ -398,10 +986,13 @@ components:
           type: string
           description: Reason of health status
           example: VAULT_OFFLINE
+        creation_timestamp:
+          type: string
+          description: Timestamp describing when the vault was created
       example:
         devices:
           - appliance_id: 1
-            address: address
+            ip_address: 10.2.22.2
             os: DoorsIX
             id_: 6
             name: RMC_device
@@ -412,9 +1003,9 @@ components:
             local_usage: 132153611
             vault_usage: 132152007
             bytes_replicated: 132107
-            latest_vault_rp: '2000-01-23T04:56:07.000+00:00'
+            latest_vault_rp: 2000-01-23T04:56:07Z
           - appliance_id: 1
-            address: address
+            ip_address: 10.2.12.2
             os: DoorsIX
             id_: 6
             name: RMC_device
@@ -425,13 +1016,13 @@ components:
             local_usage: 132153611
             vault_usage: 132152007
             bytes_replicated: 132107
-            latest_vault_rp: '2000-01-23T04:56:07.000+00:00'
+            latest_vault_rp: 2000-01-23T04:56:07Z
         active: true
         service_id: abcd
         ip_address: ip_address
         server_id: server_id
         type: Cloud
-        vault_statistics:
+        storage_details:
           drive_size: 58581416960
           used_size: 40900613898
         vault_thresholds:
@@ -449,8 +1040,9 @@ components:
         replication_data: 456325154
         health_status: NORMAL
         health_status_reason: VAULT_OFFLINE
-        last_tunnel_up: '2000-01-23T04:56:07.000+00:00'
-        reseller_id: 0
+        last_tunnel_up: 2000-01-23T04:56:07Z
+        org_id: 0
+        creation_timestamp: 2000-01-23T04:56:07Z
     short_vault:
       type: object
       properties:
@@ -473,14 +1065,16 @@ components:
         latest_vault_rp:
           type: string
           description: Time of the last vault replication
-          format: date-time
         service_id:
           type: string
           description: 4-symbols SID of vault
+        name:
+          type: string
+          description: name of vault
       example:
         id_: 234
         type: Cloud
-        latest_vault_rp: '2000-01-23T04:56:07.000+00:00'
+        latest_vault_rp: 2000-01-23T04:56:07Z
         device_usage: 1254635435
     device:
       type: object
@@ -506,25 +1100,27 @@ components:
         service_id:
           type: string
           description: Unique service SID
-        service_type:
+        product:
           type: string
-          description: Service type
+          description: Product type
           enum:
             - BRC
-            - Fusion
-            - Replibit
+            - X360RECOVER
+        local_ps_id:
+          type: string
+          description: UUID of the machine
         vaults:
           type: array
           description: List of vaults with IDs and used space for the device
           items:
             $ref: '#/components/schemas/short_vault'
-        address:
+        ip_address:
           type: string
           description: Device IP-address
-        health_status:
-          type: string
-          description: Device health status
-          example: NORMAL
+        current_health_status:
+          $ref: '#/components/schemas/health_status_obj'
+        previous_health_status:
+          $ref: '#/components/schemas/health_status_obj'
         thresholds:
           $ref: '#/components/schemas/device_thresholds'
         local_usage:
@@ -556,15 +1152,12 @@ components:
         latest_cloud_rp:
           type: string
           description: Time of the latest cloud replication
-          format: date-time
         latest_local_rp:
           type: string
           description: Time of the latest local backup
-          format: date-time
         latest_vault_rp:
           type: string
           description: Time of the latest private vault replication
-          format: date-time
         d2c:
           type: boolean
           description: Flag indicating if this device is a D2C one
@@ -593,7 +1186,7 @@ components:
         latest_autoverify_details:
           $ref: '#/components/schemas/latest_autoverify_details'
       example:
-        address: address
+        ip_address: 10.2.2.33
         cloud_usage: 6
         agent_version: 2.33.1134
         asio_endpoint_id: endpoint_url
@@ -607,50 +1200,54 @@ components:
         jobs:
           - id_: 65345
             name: BackupJob1
-            latest_rp: '2000-01-23T04:56:07.000+00:00'
+            latest_rp: 2000-01-23T04:56:07Z
           - id_: 65346
             name: BackupJob2
-            latest_rp: '2000-01-22T04:56:07.000+00:00'
+            latest_rp: 2000-01-22T04:56:07Z
         vaults:
           - id_: 234
             type: Cloud
-            latest_vault_rp: '2000-01-23T04:56:07.000+00:00'
+            latest_vault_rp: 2000-01-23T04:56:07Z
             device_usage: 1254635435
           - id_: 234
             type: Cloud
-            latest_vault_rp: '2000-01-23T04:56:07.000+00:00'
+            latest_vault_rp: 2000-01-23T04:56:07Z
             device_usage: 1254635435
         type: SERVER
         local_usage: 132153611
         vault_usage: 132152007
         latest_autoverify_details:
-          rp: '2022-12-13T19:00:01Z'
+          id_: 64f972bfbfec2620b7043e21
+          rp: 2022-12-13T19:00:01Z
           status: success,
-          timestamp: '2022-12-13T19:40:22Z'
+          timestamp: 2022-12-13T19:40:22Z
+          start_timestamp: 2022-12-13T19:40:22Z
+          end_timestamp: 2022-12-13T19:45:45Z
           screenshot_url: https://localhost/image/last_autoverify_screenshot/685134346c6470316a556846505176
-        latest_local_rp: '2000-01-23T04:56:07.000+00:00'
+          screenshot_thumbnail_url: https://localhost/image/last_autoverify_thumbnail/685134346c6470316a556846505176
+        latest_local_rp: 2000-01-23T04:56:07Z
         local_cache_details:
           enabled: false
           last_successful_verification_timestamp: null
           last_verification_timestamp: null
-          path: ''
+          path: ""
           verification_status: null
-        service_type: service_type
+        product: X360RECOVER
         thresholds:
           vault_rp_threshold: 320
           local_rp_threshold: 480
           cloud_rp_threshold: 240
         service_id: service_id
-        latest_cloud_rp: '2000-01-23T04:56:07.000+00:00'
+        latest_cloud_rp: 2000-01-23T04:56:07Z
         name: RMC_device
-        health_status: NORMAL
-        volumes:
-          - C:\\\\
-          - E:\\\\
-          - F:\\\\
-        excluded_volumes:
-          - D:\\\\
-          - G:\\\\
+        current_health_status:
+          status: NORMAL
+          reason: null
+          timestamp: 2024-01-3T11:33:07Z
+        previous_health_status: null
+        volumes: ['C:\\\\', 'E:\\\\', 'F:\\\\']
+        excluded_volumes: ['D:\\\\', 'G:\\\\']
+        local_ps_id: 'fff494ee9e7e48f1816306eb'
     short_device:
       type: object
       properties:
@@ -668,7 +1265,7 @@ components:
           type: string
           description: Name of the device
           example: RMC_device
-        address:
+        ip_address:
           type: string
           description: Device IP-address
         type:
@@ -699,10 +1296,9 @@ components:
         latest_vault_rp:
           type: string
           description: Time of the last vault replication
-          format: date-time
       example:
         appliance_id: 1
-        address: address
+        ip_address: 10.2.3.2
         os: DoorsIX
         id_: 6
         name: RMC_device
@@ -713,7 +1309,47 @@ components:
         local_usage: 132153611
         vault_usage: 132152007
         bytes_replicated: 132107
-        latest_vault_rp: '2000-01-23T04:56:07.000+00:00'
+        latest_vault_rp: 2000-01-23T04:56:07Z
+    short_appliance_device:
+      type: object
+      properties:
+        id_:
+          type: integer
+          description: Unique device identifier
+          format: int64
+        name:
+          type: string
+          description: Name of the device
+          example: RMC_device
+        ip_address:
+          type: string
+          description: Device IP-address
+        type:
+          type: string
+          description: Type of the device
+          example: SERVER
+          enum:
+            - SERVER
+            - WORKSTATION
+        os:
+          type: string
+          example: DoorsIX
+        local_usage:
+          type: integer
+          description: Amount of used space in the device
+          format: int64
+          example: 132153611
+        latest_local_rp:
+          type: string
+          description: Time of the last local backup
+      example:
+        id_: 1
+        ip_address: 10.2.3.2
+        name: RMC_device
+        type: SERVER
+        os: WINDOWS
+        local_usage: 132153611
+        latest_vault_rp: 2023-01-20T04:56:07Z
     short_job:
       type: object
       properties:
@@ -737,11 +1373,9 @@ components:
             latest_local_rp:
               type: string
               description: Timestamp of the last local replication
-              format: date-time
             latest_cloud_rp:
               type: string
               description: Timestamp of the last cloud replication
-              format: date-time
     short_replibit_job:
       allOf:
         - $ref: '#/components/schemas/short_job'
@@ -750,7 +1384,6 @@ components:
             latest_rp:
               type: string
               description: Timestamp of the last replication
-              format: date-time
             vault_id:
               type: integer
               description: id of the related vault for RB jobs
@@ -769,14 +1402,10 @@ components:
           description: Name of the job
           example: BackupJob123
         offsite:
-          type: string
-          description: enabled/disabled for BRC, onsite/offsite job for RB
-          example: onsite
-          enum:
-            - enabled
-            - disabled
-            - onsite
-            - offsite
+          type: boolean
+          description: whether this job makes replications to the cloud (true if replication is enabled for BRC job,
+            false otherwise; false for RB backup jobs; true for RB replication jobs; true for D2C jobs)
+          example: true
         enabled:
           type: boolean
           description: Describes is the job enabled
@@ -787,6 +1416,26 @@ components:
           type: string
           description: Health status of the job
           example: WARNED
+    job_history:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - Completed
+            - Failed
+        start_time:
+          type: string
+          description: Date/time ISO8601 format
+        end_time:
+          type: string
+          description: Date/time ISO8601 format
+        rp:
+          type: string
+          description: Date/time ISO8601 format
+        error_msg:
+          type: string
+          example: "Snapshot creation for volumes failed, reason: There aren't any snapshots in this system"
     brc_job:
       allOf:
         - $ref: '#/components/schemas/job'
@@ -799,11 +1448,9 @@ components:
             latest_local_rp:
               type: string
               description: Timestamp of the last local replication for BRC jobs
-              format: date-time
             latest_cloud_rp:
               type: string
               description: Timestamp of the last cloud replication for BRC jobs
-              format: date-time
     replibit_job:
       allOf:
         - $ref: '#/components/schemas/job'
@@ -816,8 +1463,7 @@ components:
             latest_rp:
               type: string
               description: Timestamp of the last replication for RB jobs
-              format: date-time
-    vault_model:
+    server_model:
       type: object
       properties:
         id_:
@@ -829,12 +1475,24 @@ components:
           type: string
           description: Model name
           example: BYOD
-          enum:
-            - BYOD
-            - BYOD (virtual)
       example:
         id_: 392
         name: BYOD
+    package:
+      type: object
+      properties:
+        id_:
+          type: integer
+          description: Unique package ID
+          format: int64
+          example: 392
+        name:
+          type: string
+          description: Package name
+          example: Axcient Replibit
+      example:
+        id_: 123
+        name: Axcient Replibit
     version:
       type: object
       properties:
@@ -875,6 +1533,9 @@ components:
         name:
           type: string
           description: Client name
+        client_code:
+          type: string
+          description: Client code
         active:
           type: boolean
           description: Is client active
@@ -887,6 +1548,7 @@ components:
       example:
         id_: 26
         name: name
+        client_code: username
         active: true
         health_status: NORMAL
         devices_counters:
@@ -937,17 +1599,17 @@ components:
           description: PS count
           format: int64
           example: 3
-    vault_statistics:
+    storage_details:
       type: object
       properties:
         used_size:
           type: integer
-          description: Storage used by all devices on this vault
+          description: Storage used by all devices on this appliance/vault
           format: int64
           example: 40900613898
         drive_size:
           type: integer
-          description: Allowed storage on this vault if the vault is private
+          description: Allowed storage on this appliance/vault (if the vault is private)
           example: 58581416960
       example:
         drive_size: 58581416960
@@ -987,28 +1649,52 @@ components:
         last_verification_timestamp:
           type: string
           description: Timestamp of last local cache verification
-          format: date-time
         last_successful_verification_timestamp:
           type: string
           description: Last successful timestamp of last local cache verification
-          format: date-time
-    latest_autoverify_details:
+    restore_point:
       type: object
       properties:
         timestamp:
           type: string
+          description: Date/time ISO8601 format of the restore point
+        in_use:
+          type: boolean
+          description: is the snapshot marked as used
+        usage_initiator:
+          type: string
+          description: who uses the snapshot
+      example:
+        timestamp: '2021-07-01T10:08:00'
+        in_use: true
+        usage_initiator: 'vault-10.2.182.140.slc.efscloud.net/iscsi'
+    latest_autoverify_details:
+      type: object
+      properties:
+        id_:
+          type: string
+          description: Unique autoverify identifier
+        timestamp:
+          type: string
           description: Date/time that the last AutoVerify result completed
-          format: date-time
+        start_timestamp:
+          type: string
+          description: Date/time that the last AutoVerify result started
+        end_timestamp:
+          type: string
+          description: Date/time that the last AutoVerify result completed
         rp:
           type: string
           description: Date/time of the recovery point that was used with the last AutoVerify result
-          format: date-time
         status:
           type: string
           description: Last autoverify status
         screenshot_url:
           type: string
           description: Latest autoverify screenshot URL
+        screenshot_thumbnail_url:
+          type: string
+          description: Latest autoverify screenshot thumbnail URL
     vault_thresholds:
       type: object
       properties:
@@ -1024,6 +1710,15 @@ components:
       example:
         vault_id: 26
         connectivity_threshold: 240
+    vault_threshold_body:
+      type: object
+      properties:
+        threshold:
+          type: integer
+          description: Time in minutes the Vault will become warned if it loses connectivity
+          example: 240
+      example:
+        threshold: 240
     device_thresholds:
       type: object
       properties:
@@ -1065,6 +1760,89 @@ components:
       oneOf:
         - $ref: '#/components/schemas/brc_job'
         - $ref: '#/components/schemas/replibit_job'
+    health_status_obj:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Health status
+          example: NORMAL
+        reason:
+          type: string
+          description: Health status reason
+          example: ONSITE_NEVER_RUN
+        timestamp:
+          type: string
+          description: Date/time ISO8601 format of the health status change
+    organization:
+      type: object
+      properties:
+        id_:
+          type: integer
+          description: Unique organization ID
+          format: int64
+          example: 26
+        name:
+          type: string
+          description: Organization name
+          example: name
+        active:
+          type: boolean
+          description: Is organization active
+          example: true
+        brand_id:
+          type: string
+          description: Organization brand ID
+          example: brand
+        salesforce_id:
+          type: string
+          description: Organization Salesforce ID
+          example: reseller_salesforce_id
+    machine_restore_points:
+      type: object
+      properties:
+        vault_id:
+          type: integer
+          description: Unique vault identifier
+          format: int64
+          example: 123
+        status:
+          type: string
+          description: Restore points request status
+          example: error
+        error_msg:
+          type: string
+          description: Contains information about errors when request restore points
+          example: Unable to obtain snapshots for this replication
+        restore_points:
+          type: array
+          description: Array of restore points
+          items:
+            $ref: '#/components/schemas/restore_point'
+      example:
+        vault_id: 123
+        status: 'OK'
+        error_msg: ''
+        restore_points:
+          timestamp: '2021-07-01T10:08:00'
+          in_use: true
+          usage_initiator: 'vault-10.2.182.140.slc.efscloud.net/iscsi'
+    machine_autoverify_details:
+      type: object
+      properties:
+        vault_id:
+          type: integer
+          description: Unique vault identifier
+          format: int64
+        appliance_id:
+          type: integer
+          description: Unique appliance identifier
+          format: int64
+        autoverify_details:
+          type: array
+          description: Array of autoverify details
+          items:
+            $ref: '#/components/schemas/latest_autoverify_details'
   responses:
     UnauthorizedError:
       description: Access token is missing or invalid
