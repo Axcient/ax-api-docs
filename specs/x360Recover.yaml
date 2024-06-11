@@ -17,7 +17,7 @@ info:
     **Terms and Conditions:** [https://axcient.com/terms-and-conditions/](https://axcient.com/terms-and-conditions/)
   version: 0.2.1
 servers:
-  - url: https://api.developer.axcient.com/x360recover
+  - url: https://axapi.developer.axcient.com/x360recover
     description: Production
   - url: https://ax-pub-recover.wiremockapi.cloud/
     description: Mock Server
