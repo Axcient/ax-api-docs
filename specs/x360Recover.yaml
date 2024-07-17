@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: RMC Organization Public API
+  title: x360Recover API
   description: |
     Welcome to the x360Recover Public API. 
     
@@ -55,7 +55,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/org_level_vault'
+                $ref: '#/components/schemas/vault'
         "400":
           description: The specified vault ID is invalid (not a number).
         "401":
@@ -97,7 +97,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/org_level_appliance'
+                $ref: '#/components/schemas/appliance'
         "400":
           description: The specified appliance ID is invalid (not a number).
         "401":
@@ -208,7 +208,7 @@ paths:
                 type: array
                 description: List of Autoverify results
                 items:
-                  $ref: '#/components/schemas/org_level_machine_autoverify_details'
+                  $ref: '#/components/schemas/machine_autoverify_details'
                 x-content-type: application/json
         "400":
           description: The specified device ID is invalid (not a number).
@@ -283,7 +283,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/org_level_device'
+                $ref: '#/components/schemas/device'
         "400":
           description: The specified device ID is invalid (not a number).
         "401":
@@ -324,7 +324,7 @@ paths:
                 type: array
                 description: List of devices
                 items:
-                  $ref: '#/components/schemas/org_level_device'
+                  $ref: '#/components/schemas/device'
                 x-content-type: application/json
         "401":
           description: Access token is missing or invalid
@@ -378,7 +378,7 @@ paths:
                 type: array
                 description: List of devices
                 items:
-                  $ref: '#/components/schemas/org_level_device'
+                  $ref: '#/components/schemas/device'
                 x-content-type: application/json
         "400":
           description: The specified SID is invalid (string).
@@ -430,7 +430,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/org_level_jobs_response'
+                $ref: '#/components/schemas/jobs_response'
         "400":
           description: The specified job ID is invalid (not a number).
         "401":
@@ -549,7 +549,7 @@ paths:
                 type: array
                 description: List of jobs
                 items:
-                  $ref: '#/components/schemas/org_level_jobs_response'
+                  $ref: '#/components/schemas/jobs_response'
                 x-content-type: application/json
         "400":
           description: The specified device ID is invalid (not a number).
@@ -609,7 +609,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/org_level_vault'
+                $ref: '#/components/schemas/vault'
         "400":
           description: The specified organization ID is invalid (not a number).
         "401":
@@ -653,7 +653,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/org_level_client'
+                $ref: '#/components/schemas/client'
         "401":
           description: Access token is missing or invalid
         "404":
@@ -686,7 +686,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/org_level_client'
+                $ref: '#/components/schemas/client'
         "401":
           description: Access token is missing or invalid
         "404":
@@ -726,7 +726,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/org_level_appliance'
+                $ref: '#/components/schemas/appliance'
         "400":
           description: The specified client ID is invalid (not a number).
         "401":
@@ -767,7 +767,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/org_level_appliance'
+                $ref: '#/components/schemas/appliance'
         "401":
           description: Access token is missing or invalid
         default:
@@ -788,7 +788,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/org_level_organization'
+                $ref: '#/components/schemas/organization'
         "401":
           description: Access token is missing or invalid
         default:
@@ -798,7 +798,7 @@ paths:
       x-openapi-router-controller: app.mod_public_api.controllers.organization_controller
 components:
   schemas:
-    org_level_appliance:
+    appliance:
       type: object
       properties:
         id:
@@ -833,9 +833,9 @@ components:
             - BRC
             - X360RECOVER
         model:
-          $ref: '#/components/schemas/org_level_server_model'
+          $ref: '#/components/schemas/server_model'
         package:
-          $ref: '#/components/schemas/org_level_package'
+          $ref: '#/components/schemas/package'
         service_type:
           type: string
           description: Type of the service HARDWARE/VIRTUAL
@@ -860,9 +860,9 @@ components:
           type: array
           description: List of devices with some additional information
           items:
-            $ref: '#/components/schemas/org_level_short_appliance_device'
+            $ref: '#/components/schemas/short_appliance_device'
         software_version:
-          $ref: '#/components/schemas/org_level_version'
+          $ref: '#/components/schemas/version'
         health_status:
           type: string
           description: Health status of the appliance
@@ -904,7 +904,7 @@ components:
           version: 10.1.0
         health_status: TROUBLED
         health_status_reason: FULL_90_PERCENT
-    org_level_short_appliance:
+    short_appliance:
       type: object
       properties:
         id:
@@ -950,7 +950,7 @@ components:
         alias: TestAppliance
         product: X360RECOVER
         service_type: HARDWARE
-    org_level_vault:
+    vault:
       type: object
       properties:
         id:
@@ -981,7 +981,7 @@ components:
             - Cloud
             - Private
         model:
-          $ref: '#/components/schemas/org_level_server_model'
+          $ref: '#/components/schemas/server_model'
         service_type:
           type: string
           description: Type of the service HARDWARE/VIRTUAL
@@ -1005,9 +1005,9 @@ components:
           type: array
           description: List of devices with some additional information
           items:
-            $ref: '#/components/schemas/org_level_short_device'
+            $ref: '#/components/schemas/short_device'
         software_version:
-          $ref: '#/components/schemas/org_level_version'
+          $ref: '#/components/schemas/version'
         replication_data:
           type: integer
           description: Information about replication
@@ -1079,7 +1079,7 @@ components:
         last_tunnel_up: 2000-01-23T04:56:07Z
         org_id: 0
         creation_timestamp: 2000-01-23T04:56:07Z
-    org_level_short_vault:
+    short_vault:
       type: object
       properties:
         id:
@@ -1112,7 +1112,7 @@ components:
         type: Cloud
         latest_vault_rp: 2000-01-23T04:56:07Z
         device_usage: 1254635435
-    org_level_device:
+    device:
       type: object
       properties:
         id:
@@ -1153,7 +1153,7 @@ components:
           type: array
           description: List of vaults with IDs and used space for the device
           items:
-            $ref: '#/components/schemas/org_level_short_vault'
+            $ref: '#/components/schemas/short_vault'
         ip_address:
           type: string
           description: Device IP-address
@@ -1187,8 +1187,8 @@ components:
           description: List of job IDs for the device
           items:
             oneOf:
-              - $ref: '#/components/schemas/org_level_short_brc_job'
-              - $ref: '#/components/schemas/org_level_short_replibit_job'
+              - $ref: '#/components/schemas/short_brc_job'
+              - $ref: '#/components/schemas/short_replibit_job'
         latest_cloud_rp:
           type: string
           description: Time of the latest cloud replication
@@ -1224,7 +1224,7 @@ components:
         local_cache_details:
           $ref: '#/components/schemas/local_cache_details'
         latest_autoverify_details:
-          $ref: '#/components/schemas/org_level_latest_autoverify_details'
+          $ref: '#/components/schemas/latest_autoverify_details'
       example:
         ip_address: 10.2.2.33
         cloud_usage: 6
@@ -1288,7 +1288,7 @@ components:
         volumes: ['C:\\\\', 'E:\\\\', 'F:\\\\']
         excluded_volumes: ['D:\\\\', 'G:\\\\']
         local_ps_id: 'fff494ee9e7e48f1816306eb'
-    org_level_short_device:
+    short_device:
       type: object
       properties:
         id:
@@ -1300,7 +1300,7 @@ components:
           description: Unique appliance identifier
           format: int64
         client:
-          $ref: '#/components/schemas/org_level_short_client'
+          $ref: '#/components/schemas/short_client'
         name:
           type: string
           description: Name of the device
@@ -1350,7 +1350,7 @@ components:
         vault_usage: 132152007
         bytes_replicated: 132107
         latest_vault_rp: 2000-01-23T04:56:07Z
-    org_level_short_appliance_device:
+    short_appliance_device:
       type: object
       properties:
         id:
@@ -1390,7 +1390,7 @@ components:
         os: WINDOWS
         local_usage: 132153611
         latest_vault_rp: 2023-01-20T04:56:07Z
-    org_level_short_job:
+    short_job:
       type: object
       properties:
         id:
@@ -1405,9 +1405,9 @@ components:
       example:
         id: 65345
         name: BackupJob123
-    org_level_short_brc_job:
+    short_brc_job:
       allOf:
-        - $ref: '#/components/schemas/org_level_short_job'
+        - $ref: '#/components/schemas/short_job'
         - type: object
           properties:
             latest_local_rp:
@@ -1416,9 +1416,9 @@ components:
             latest_cloud_rp:
               type: string
               description: Timestamp of the last cloud replication
-    org_level_short_replibit_job:
+    short_replibit_job:
       allOf:
-        - $ref: '#/components/schemas/org_level_short_job'
+        - $ref: '#/components/schemas/short_job'
         - type: object
           properties:
             latest_rp:
@@ -1429,7 +1429,7 @@ components:
               description: id of the related vault for RB jobs
               format: int64
               example: 1525
-    org_level_job:
+    job:
       type: object
       properties:
         id:
@@ -1476,9 +1476,9 @@ components:
         error_msg:
           type: string
           example: "Snapshot creation for volumes failed, reason: There aren't any snapshots in this system"
-    org_level_brc_job:
+    brc_job:
       allOf:
-        - $ref: '#/components/schemas/org_level_job'
+        - $ref: '#/components/schemas/job'
         - type: object
           properties:
             job_type:
@@ -1491,19 +1491,19 @@ components:
             latest_cloud_rp:
               type: string
               description: Timestamp of the last cloud replication for BRC jobs
-    org_level_replibit_job:
+    replibit_job:
       allOf:
-        - $ref: '#/components/schemas/org_level_job'
+        - $ref: '#/components/schemas/job'
         - type: object
           properties:
             vault:
-              $ref: '#/components/schemas/org_level_short_vault'
+              $ref: '#/components/schemas/short_vault'
             schedule:
               type: string
             latest_rp:
               type: string
               description: Timestamp of the last replication for RB jobs
-    org_level_server_model:
+    server_model:
       type: object
       properties:
         id:
@@ -1518,7 +1518,7 @@ components:
       example:
         id: 392
         name: BYOD
-    org_level_package:
+    package:
       type: object
       properties:
         id:
@@ -1533,7 +1533,7 @@ components:
       example:
         id: 123
         name: Axcient Replibit
-    org_level_version:
+    version:
       type: object
       properties:
         id:
@@ -1548,7 +1548,7 @@ components:
       example:
         id: 15
         version: 10.1.0
-    org_level_short_client:
+    short_client:
       type: object
       properties:
         id:
@@ -1562,7 +1562,7 @@ components:
       example:
         id: 26
         name: name
-    org_level_client:
+    client:
       type: object
       properties:
         id:
@@ -1708,7 +1708,7 @@ components:
         timestamp: '2021-07-01T10:08:00'
         in_use: true
         usage_initiator: 'vault-10.2.182.140.slc.efscloud.net/iscsi'
-    org_level_latest_autoverify_details:
+    latest_autoverify_details:
       type: object
       properties:
         id:
@@ -1735,7 +1735,7 @@ components:
         screenshot_thumbnail_url:
           type: string
           description: Latest autoverify screenshot thumbnail URL
-    org_level_autoverify_info:
+    autoverify_info:
       type: object
       properties:
         id:
@@ -1823,10 +1823,10 @@ components:
           type: boolean
           description: Is this threshold overridden
           example: true
-    org_level_jobs_response:
+    jobs_response:
       oneOf:
-        - $ref: '#/components/schemas/org_level_brc_job'
-        - $ref: '#/components/schemas/org_level_replibit_job'
+        - $ref: '#/components/schemas/brc_job'
+        - $ref: '#/components/schemas/replibit_job'
     health_status_obj:
       type: object
       properties:
@@ -1841,7 +1841,7 @@ components:
         timestamp:
           type: string
           description: Date/time ISO8601 format of the health status change
-    org_level_organization:
+    organization:
       type: object
       properties:
         id:
@@ -1894,7 +1894,7 @@ components:
           timestamp: '2021-07-01T10:08:00'
           in_use: true
           usage_initiator: 'vault-10.2.182.140.slc.efscloud.net/iscsi'
-    org_level_machine_autoverify_details:
+    machine_autoverify_details:
       type: object
       properties:
         vault_id:
@@ -1909,7 +1909,7 @@ components:
           type: array
           description: Array of autoverify details
           items:
-            $ref: '#/components/schemas/org_level_autoverify_info'
+            $ref: '#/components/schemas/autoverify_info'
   responses:
     UnauthorizedError:
       description: Access token is missing or invalid
