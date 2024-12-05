@@ -49,7 +49,7 @@ jobs:
       name: ${{ needs.set-environment.outputs.env_name }}
     steps:
       - name: Checking out files
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Configuring AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
